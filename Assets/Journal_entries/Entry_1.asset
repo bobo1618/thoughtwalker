@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Entry_1
+  m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
+  order: 0
+  images:
+  - {fileID: 21300000, guid: 0d3ea359139ea264bbc40d093135e512, type: 3}
+  - {fileID: 21300000, guid: 8adf28fedde275a4b8af3e71beeab221, type: 3}
