@@ -21,7 +21,7 @@ namespace GGJ.Thoughts {
     }
 
     public class ThoughtGenerator : MonoBehaviour {
-        public JournalEntryUnlock[] thoughtUnlocks;
+        public List<JournalEntryUnlock> thoughtUnlocks;
         public Transform thoughtPosition;
         public GameObject thoughtPrefab;
         public Sprite thoughtSprite;
@@ -47,10 +47,10 @@ namespace GGJ.Thoughts {
                 return;
             }
 
-            if(thoughtUnlocks.Length > 0) {
+            if(thoughtUnlocks.Count > 0) {
                 foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
                     Journal.Journal.Instance.AddEntry(selectedEntry);
-                    // ROHAN OVER HERE
+                    thoughtUnlocks.Remove(selectedEntry);
                 }
             }
 
