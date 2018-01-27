@@ -55,7 +55,7 @@ namespace GGJ.Journal {
 		public void SetStage(int stageIndex) {
 			if (stageIndex == curStage || stageIndex >= entry.stages.Count) return;
 			JournalEntry.EntryStage stage = stageIndex < 0 ? null : entry.stages[stageIndex];
-			float fadeTime = stage == null ? 0 : Mathf.Max(0, stage.delay);
+			float fadeTime = stage == null ? 0 : Mathf.Max(0, stage.fadeTime);
 
 			fadeImage.sprite = image.sprite;
 			if (fadeImage.sprite == null) fadeImage.color = new Color(1, 1, 1, 0);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GGJ.Journal {
 
@@ -12,6 +13,8 @@ namespace GGJ.Journal {
 
 	[RequireComponent(typeof(Animator))]
 	public class Journal : MonoBehaviour {
+		[SerializeField] int pageList;
+
 		List<JournalPage> pages;
 		Animator animator;
 		int curPageIndex = 0;
@@ -42,7 +45,8 @@ namespace GGJ.Journal {
 		}
 
 		IEnumerator PostVisibilityCR(System.Action doAfter) {
-			yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+			yield return null;
+			yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * (1f - animator.GetCurrentAnimatorStateInfo(0).normalizedTime));
 			doAfter.Invoke();
 		}
 
@@ -58,15 +62,14 @@ namespace GGJ.Journal {
 		}
 
 		public void TurnPage(bool nextPage) {
-			bool hasPage = SetPage(curPageIndex + (nextPage ? 1 : -1));
+			SetPage(curPageIndex + (nextPage ? 1 : -1));
 		}
 
-		bool SetPage(int index) {
-			if (index == curPageIndex || index < 0 || index >= pages.Count) return false;
+		void SetPage(int index) {
+			if (index == curPageIndex || index < 0 || index >= pages.Count) return;
 			pages[curPageIndex].gameObject.SetActive(false);
 			curPageIndex = index;
 			pages[curPageIndex].gameObject.SetActive(true);
-			return true;
 		}
 
 		void Update() {
@@ -75,6 +78,13 @@ namespace GGJ.Journal {
 				if (Input.GetKeyUp(KeyCode.RightArrow)) TurnPage(true);
 				else if (Input.GetKeyUp(KeyCode.LeftArrow)) TurnPage(false);
 			}
+		}
+
+		// FOR TESTING ONLY
+		[SerializeField]
+		JournalEntryUnlock[] unlockList;
+		public void AddEntryIndex(int index) {
+			AddEntry(unlockList[index]);
 		}
 	}
 

@@ -16,5 +16,5 @@ MonoBehaviour:
     delay: 0
     fadeTime: 1
   - image: {fileID: 21300000, guid: 1e439e3be80b7c14d926c5c9a31837e0, type: 3}
-    delay: 0
+    delay: 2
     fadeTime: 1
