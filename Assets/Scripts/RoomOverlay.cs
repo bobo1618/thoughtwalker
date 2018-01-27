@@ -19,10 +19,7 @@ public class RoomOverlay : MonoBehaviour {
             fadeAmount = 0f;
         }
 
-        Debug.Log("isEntered " + isEntered + "  isOccupied " + isOccupied);
         SpriteRenderer sRenderer = GetComponent<SpriteRenderer>();
-        Debug.Log(sRenderer.color.a + "Alpha");
-        Debug.Log(fadeAmount + "FadeAmount");
         if(sRenderer.color.a < fadeAmount || sRenderer.color.a > fadeAmount) {
             DoFade(fadeAmount);
         }

@@ -9,10 +9,14 @@ namespace GGJ.Thoughts {
 
         public void Update() {
             SpriteRenderer sRendereer = GetComponent<SpriteRenderer>();
-            if(transform.localScale.x < 0) {
-                sRendereer.flipX = true;
+            if(transform.lossyScale.x < 0) {
+                if(sRendereer.flipX == false) {
+                    sRendereer.flipX = true;
+                }
             } else {
-                sRendereer.flipX = false;
+                if(sRendereer.flipX == true) {
+                    sRendereer.flipX = false;
+                }
             }
         }
 

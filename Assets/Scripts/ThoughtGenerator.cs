@@ -34,11 +34,13 @@ namespace GGJ.Thoughts {
             } else {
                 thoughtGenerated = Instantiate(thoughtPrefab, parentTransform);
             }
+
+
             thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(appearDelay, thoughtSprite, autoFade);
         }
 
         void FadeThought() {
-            if(thoughtGenerated.activeInHierarchy) {
+            if(thoughtGenerated.GetComponent<SpriteRenderer>() != null) {
                 thoughtGenerated.GetComponent<ThoughtScript>().FadeThought();
             }
         }
