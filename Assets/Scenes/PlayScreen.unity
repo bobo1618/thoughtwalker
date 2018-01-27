@@ -1811,7 +1811,7 @@ Prefab:
     - target: {fileID: 114087337331755006, guid: 4473f28069e71ab47be2a4ed65c9e602,
         type: 2}
       propertyPath: thoughtUnlocks.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4574152618225432, guid: 4473f28069e71ab47be2a4ed65c9e602, type: 2}
       propertyPath: m_LocalPosition.x
