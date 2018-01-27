@@ -20,20 +20,30 @@ namespace GGJ.Management {
 		bool firstEverUnlock = true;
 
 		void Start() {
+			Journal.Journal.Instance.OnEntryUnlocked += OnEntryUnlocked;
+			NextStage();
 		}
 
 		public void NextStage() {
 			curStageIndex++;
 			if (curStageIndex >= stages.Count) {
-				// CONGLATURATION!!! A WINNER IS YOU
+				Debug.Log("CONGLATURATION!!! YOUR WINNER! And you were eaten by a grue.");
 			}
 			else {
 				GameStage curStage = stages[curStageIndex];
+				toBeUnlocked.Clear();
+				foreach (JournalEntry entry in curStage.entriesToUnlock) toBeUnlocked[entry] = false;
 			}
 		}
 
-		void OnEntryUnlock(JournalEntry entry) {
-			
+		void OnEntryUnlocked(JournalEntry entry) {
+			if (!toBeUnlocked.ContainsKey(entry)) return;
+			toBeUnlocked[entry] = true;
+			bool stageComplete = true;
+			foreach (bool isUnlocked in toBeUnlocked.Keys) stageComplete &= isUnlocked;
+			if (stageComplete) {
+				foreach (GameObject actGO in stages[curStageIndex].activateOnEnd) actGO.SetActive(true);
+			}
 		}
 	}
 
@@ -41,5 +51,6 @@ namespace GGJ.Management {
 	public class GameStage {
 		public EmotionalState state;
 		public List<JournalEntry> entriesToUnlock;
+		public List<GameObject> activateOnEnd;
 	}
 }

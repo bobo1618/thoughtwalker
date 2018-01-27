@@ -8,8 +8,8 @@ namespace GGJ.Journal {
 	[System.Serializable]
 	public class JournalEntryUnlock {
 		public JournalEntry entry;
-		public int stage;
-		public float delay;
+		public int stage = 0;
+		public float delay = 0;
 	}
 
 	[RequireComponent(typeof(Animator))]

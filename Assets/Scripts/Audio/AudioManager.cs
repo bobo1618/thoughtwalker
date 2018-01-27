@@ -12,32 +12,33 @@ namespace GGJ.Audio {
 		[SerializeField] AudioMixer mixer;
 		[SerializeField] AudioMixerGroup bgmGroup, sfxGroup;
 
-		AudioSource musicSource;
-		AudioSource soundSource;
+		AudioSource bgmSource;
+		AudioSource sfxSource;
 		Tweener pitchTweener = null, distortTweener = null;
 		[SerializeField] float pitchChangeAmount = 5, distortAmount = 1f;
 		[SerializeField] AnimationCurve distortCurve;
+		float effectMultiplier = 0;
 
 		void Awake() {
 			Instance = this;
-			musicSource = gameObject.AddComponent<AudioSource>();
-			musicSource.playOnAwake = false;
-			musicSource.loop = true;
-			musicSource.outputAudioMixerGroup = bgmGroup;
-			soundSource = gameObject.AddComponent<AudioSource>();
-			soundSource.playOnAwake = false;
-			soundSource.loop = false;
-			musicSource.outputAudioMixerGroup = sfxGroup;
+			bgmSource = gameObject.AddComponent<AudioSource>();
+			bgmSource.playOnAwake = false;
+			bgmSource.loop = true;
+			bgmSource.outputAudioMixerGroup = bgmGroup;
+			sfxSource = gameObject.AddComponent<AudioSource>();
+			sfxSource.playOnAwake = false;
+			sfxSource.loop = false;
+			bgmSource.outputAudioMixerGroup = sfxGroup;
 		}
 
 		void Start() {
-			if (startingBGM) PlayBGM(startingBGM);
+			if (startingBGM) SetBGM(startingBGM);
 			DoPitchChange();
 			DoDistort();
 		}
 
 		void DoPitchChange() {
-			pitchTweener = mixer.DOSetFloat("Pitch", Random.Range(1 - (pitchChangeAmount / 100f), 1 + (pitchChangeAmount / 100f)), Random.Range(1f, 2f)).SetEase(Ease.InOutSine).OnComplete(() => DoPitchChange());
+			pitchTweener = mixer.DOSetFloat("Pitch", Random.Range(1 - (pitchChangeAmount * effectMultiplier / 100f), 1 + (pitchChangeAmount / 100f)), Random.Range(1f, 2f)).SetEase(Ease.InOutSine).OnComplete(() => DoPitchChange());
 		}
 
 		void DoDistort() {
@@ -46,17 +47,41 @@ namespace GGJ.Audio {
 
 		public static void PlaySound(AudioClip sound, float volumeScale = 1) {
 			if (!Instance) return;
-			Instance.soundSource.PlayOneShot(sound, volumeScale);
+			Instance.sfxSource.PlayOneShot(sound, volumeScale);
 		}
 
-		public static void PlayBGM(AudioClip newBGM) {
-			if (!Instance || Instance.musicSource.clip == newBGM) return;
-			Instance.musicSource.DOFade(0, 1f).SetEase(Ease.Linear).OnComplete(() => {
-				Instance.musicSource.Stop();
-				Instance.musicSource.clip = newBGM;
-				Instance.musicSource.Play();
-				Instance.musicSource.DOFade(1, 1f).SetEase(Ease.Linear).SetDelay(0.5f);
+		public static void SetBGM(AudioClip newBGM) {
+			if (!Instance || Instance.bgmSource.clip == newBGM) return;
+			Instance.bgmSource.DOFade(0, 1f).SetEase(Ease.Linear).OnComplete(() => {
+				Instance.bgmSource.Stop();
+				Instance.bgmSource.clip = newBGM;
+				Instance.bgmSource.Play();
+				Instance.bgmSource.DOFade(1, 1f).SetEase(Ease.Linear).SetDelay(0.5f);
 			});
+		}
+
+		public static void SetEffectMultiplier(float mult) {
+			if (!Instance) return;
+			Instance.effectMultiplier = Mathf.Max(0, mult);
+		}
+
+
+		AudioClip resetBGM;
+		float resetMult;
+		bool resetReady;
+
+		public static void PrepareToReset() {
+			if (!Instance) return;
+			Instance.resetBGM = Instance.bgmSource.clip;
+			Instance.resetMult = Instance.effectMultiplier;
+			Instance.resetReady = true;
+		}
+
+		public static void Reset() {
+			if (!Instance || !Instance.resetReady) return;
+			Instance.bgmSource.clip = Instance.resetBGM;
+			Instance.effectMultiplier = Instance.resetMult;
+			Instance.resetReady = false;
 		}
 	}
 }
