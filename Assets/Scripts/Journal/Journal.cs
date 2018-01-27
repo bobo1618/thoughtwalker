@@ -18,7 +18,7 @@ namespace GGJ.Journal {
 
 		List<JournalPage> pages;
 		Animator animator;
-		int curPageIndex = 0;
+		int curPageIndex = int.MinValue;
 		bool isVisible = false;
 
 		const string PARAM_VISIBLE = "Visible";
@@ -68,7 +68,7 @@ namespace GGJ.Journal {
 
 		void SetPage(int index) {
 			if (index == curPageIndex || index < 0 || index >= pages.Count) return;
-			pages[curPageIndex].gameObject.SetActive(false);
+			if (curPageIndex >= 0 && curPageIndex < pages.Count) pages[curPageIndex].gameObject.SetActive(false);
 			curPageIndex = index;
 			pages[curPageIndex].gameObject.SetActive(true);
 			listText.text = (curPageIndex + 1) + "/" + pages.Count;
