@@ -18,7 +18,7 @@ public class Staircase : MonoBehaviour {
 
     public void OnTriggerStay2D(Collider2D collision) {
         if(collision.gameObject.tag == "Player") {
-            if(Input.GetKeyDown("w")) {
+            if(Input.GetKey("w")) {
                 toTransport = collision.gameObject;
                 TransportObject();
             }

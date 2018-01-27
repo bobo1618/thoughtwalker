@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GGJ.Journal;
+using DG.Tweening;
 
 namespace GGJ.Thoughts {
     public enum EmotionalState
@@ -35,10 +36,12 @@ namespace GGJ.Thoughts {
 
         public bool oneTimeShow = false;
 
+        System.Action onFading;
+
         private GameObject thoughtGenerated;
         private bool shownOnce;
 
-        void GenerateThought() {
+        public void GenerateThought(System.Action callback = null) {
             if(thoughtGenerated != null) {
                 return;
             }
@@ -47,11 +50,8 @@ namespace GGJ.Thoughts {
                 return;
             }
 
-            if(thoughtUnlocks.Count > 0) {
-                foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
-                    Journal.Journal.Instance.AddEntry(selectedEntry);
-                    thoughtUnlocks.Remove(selectedEntry);
-                }
+            if(callback != null) {
+                onFading = callback;
             }
 
             if(parentTransform == null) {
@@ -68,11 +68,24 @@ namespace GGJ.Thoughts {
             thoughtData.fadeDelay = fadeDelay;
             thoughtData.scramble = scramble;
 
-            thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(thoughtData);
-            shownOnce = true;
+            thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(thoughtData).OnComplete(() => {
+                if(autoFade) {
+                    Invoke("FadeThought", fadeDelay);
+                }
+            });
         }
 
         public void FadeThought() {
+            if(onFading != null) {
+                onFading.Invoke();
+            }
+            if(thoughtUnlocks.Count > 0) {
+                foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
+                    Journal.Journal.Instance.AddEntry(selectedEntry);
+                }
+                thoughtUnlocks.Clear();
+            }
+
             if(thoughtGenerated != null && thoughtGenerated.GetComponent<SpriteRenderer>() != null) {
                 thoughtGenerated.GetComponent<ThoughtScript>().FadeThought();
             }
@@ -80,13 +93,16 @@ namespace GGJ.Thoughts {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if(other.gameObject.tag == "Player") {
-                Invoke("GenerateThought", 0f); // For now
+                GenerateThought();
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if(other.gameObject.tag == "Player") {
-                Invoke("FadeThought", 0f);
+                CancelInvoke("FadeThought");
+                if(thoughtGenerated != null) {
+                    FadeThought();
+                }
             }
         }
     }

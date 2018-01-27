@@ -6,13 +6,19 @@ using TMPro;
 
 namespace GGJ.Thoughts {
     public class ThoughtScript : MonoBehaviour {
+        Sequence sequence;
+
         bool autoFade;
         string thoughtText;
         float disappearDelay;
         string scramble;
 
+        public void Awake() {
+            sequence = DOTween.Sequence();
+        }
+
         // Use this for initialization
-        public void PlayThought(ThoughtData thoughtData) {
+        public Sequence PlayThought(ThoughtData thoughtData) {
             SpriteRenderer sRenderer = GetComponent<SpriteRenderer>();
             Color spriteColor = sRenderer.color;
             spriteColor.a = 0f;
@@ -24,42 +30,31 @@ namespace GGJ.Thoughts {
             autoFade = thoughtData.autoFade;
             scramble = thoughtData.scramble;
 
-            sRenderer.DOFade(1.0f, 1.0f).SetDelay(thoughtData.appearDelay).OnComplete(() => ShowText()).SetAutoKill();
-        }
+            sequence.Append(sRenderer.DOFade(1.0f, 1.0f).SetDelay(thoughtData.appearDelay));
 
-        public void ShowText() {
             TextMeshPro textMesh = GetComponentInChildren<TextMeshPro>();
 
             int s = 0;
             float speed = 20;
             textMesh.DOFade(1.0f, 1.0f);
-            if(autoFade) {
-                DOTween.To(() => s, strLen => {
-                    if(scramble != string.Empty) {
-                        string newText = thoughtText.Substring(0, strLen) + scramble.Substring(strLen, thoughtText.Length - strLen);
-                        Debug.Log(newText);
-                        textMesh.text = newText;
-                    } else {
-                        textMesh.text = thoughtText.Substring(0, strLen);
-                    }
-                }, thoughtText.Length, thoughtText.Length / speed).SetEase(Ease.OutQuad).OnComplete(() => FadeThought()).SetAutoKill();
-            } else {
-                DOTween.To(() => s, strLen => {
-                    if(scramble != string.Empty) {
-                        string newText = thoughtText.Substring(0, strLen) + scramble.Substring(strLen, thoughtText.Length - strLen);
-                        textMesh.text = newText;
-                    } else {
-                        textMesh.text = thoughtText.Substring(0, strLen);
-                    }
-                }, thoughtText.Length, thoughtText.Length / speed).SetEase(Ease.OutQuad).SetAutoKill();
-            }
+
+            sequence.Append(DOTween.To(() => s, strLen => {
+                if(scramble != string.Empty) {
+                    string newText = thoughtText.Substring(0, strLen) + scramble.Substring(strLen, thoughtText.Length - strLen);
+                    textMesh.text = newText;
+                } else {
+                    textMesh.text = thoughtText.Substring(0, strLen);
+                }
+            }, thoughtText.Length, thoughtText.Length / speed).SetEase(Ease.OutQuad));
+
+            return sequence;
         }
 
         public void FadeThought() {
             transform.parent = null;
             SpriteRenderer sRenderer = GetComponent<SpriteRenderer>();
-            GetComponentInChildren<TextMeshPro>().DOFade(0.0f, 0.5f).SetDelay(disappearDelay);
-            Tweener tweenFade = sRenderer.DOFade(0.0f, 0.5f).SetDelay(disappearDelay).OnComplete(() => KillThought()).SetAutoKill();
+            GetComponentInChildren<TextMeshPro>().DOFade(0.0f, 0.5f);
+            Tweener tweenFade = sRenderer.DOFade(0.0f, 0.5f).OnComplete(() => KillThought()).SetAutoKill();
         }
 
         void KillThought() {
