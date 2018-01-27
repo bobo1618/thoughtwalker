@@ -16,6 +16,7 @@ namespace GGJ.Thoughts {
         public Transform thoughtPosition;
         public GameObject thoughtPrefab;
         public Sprite thoughtSprite;
+        public string thoughtText;
         public float appearDelay;
         public float fadeDelay;
         public Transform parentTransform;
@@ -35,20 +36,20 @@ namespace GGJ.Thoughts {
                 return;
             }
 
+            if(thoughtUnlocks.Length > 0) {
+                foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
+                    Journal.Journal.Instance.AddEntry(selectedEntry);
+                    // ROHAN OVER HERE
+                }
+            }
+
             if(parentTransform == null) {
                 thoughtGenerated = Instantiate(thoughtPrefab, thoughtPosition);
             } else {
                 thoughtGenerated = Instantiate(thoughtPrefab, parentTransform);
             }
 
-            if(thoughtUnlocks.Length > 0) {
-                foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
-                    // ROHAN OVER HERE
-                    //selectedEntry.
-                }
-            }
-
-            thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(appearDelay, thoughtSprite, autoFade, "example over here MUAHAHAHAHAHAHA");
+            thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(appearDelay, thoughtSprite, autoFade, thoughtText);
             shownOnce = true;
         }
 
