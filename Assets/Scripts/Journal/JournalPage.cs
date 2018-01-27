@@ -34,7 +34,7 @@ namespace GGJ.Journal {
 		}
 
 		IEnumerator SetEntryStateCR(JournalEntryUnlock unlock) {
-			if (unlock.entry.stages[unlock.stage].delay > 0) yield return new WaitForSeconds(unlock.entry.stages[unlock.stage].delay);
+			if (unlock.delay > 0) yield return new WaitForSeconds(unlock.delay);
 			entryLookup[unlock.entry].SetStage(unlock.stage);
 		}
 	}
@@ -45,6 +45,7 @@ namespace GGJ.Journal {
 		[SerializeField] Image image;
 		public int curStage { get; private set; }
 		Image fadeImage;
+		Tweener shakeTween = null;
 
 		public void Initialize() {
 			fadeImage = Object.Instantiate(image, image.transform.position, image.transform.rotation, image.transform.parent);
@@ -62,6 +63,9 @@ namespace GGJ.Journal {
 			image.sprite = stage == null ? null : stage.image;
 			if (image.sprite == null) image.color = new Color(1, 1, 1, 0);
 
+			if (shakeTween != null) shakeTween.Kill(true);
+			shakeTween = null;
+
 			if (fadeTime > 0) {
 				if (fadeImage.sprite != null) {
 					fadeImage.color = Color.white;
@@ -69,7 +73,9 @@ namespace GGJ.Journal {
 				}
 				if (image.sprite != null) {
 					image.color = new Color(1, 1, 1, 0);
-					image.DOFade(1, fadeTime).SetEase(Ease.OutQuad);
+					image.DOFade(1, fadeTime).SetEase(Ease.OutQuad).OnComplete(() => {
+						if (stage.shakeStrength > 0) shakeTween = image.transform.DOShakePosition(1f, stage.shakeStrength, 20, 90, false, true).SetLoops(-1);
+					});
 				}
 			}
 		}

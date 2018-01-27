@@ -9,11 +9,12 @@ namespace GGJ.Journal {
 	public class JournalEntryUnlock {
 		public JournalEntry entry;
 		public int stage;
+		public float delay;
 	}
 
 	[RequireComponent(typeof(Animator))]
 	public class Journal : MonoBehaviour {
-		[SerializeField] int pageList;
+		[SerializeField] Text listText;
 
 		List<JournalPage> pages;
 		Animator animator;
@@ -70,6 +71,7 @@ namespace GGJ.Journal {
 			pages[curPageIndex].gameObject.SetActive(false);
 			curPageIndex = index;
 			pages[curPageIndex].gameObject.SetActive(true);
+			listText.text = (curPageIndex + 1) + "/" + pages.Count;
 		}
 
 		void Update() {
@@ -93,7 +95,7 @@ namespace GGJ.Journal {
 		[System.Serializable]
 		public class EntryStage {
 			public Sprite image;
-			public float delay = 0, fadeTime = 1;
+			public float fadeTime = 1, shakeStrength = 0;
 		}
 		public List<EntryStage> stages;
 	}

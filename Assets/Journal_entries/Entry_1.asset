@@ -13,8 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:GGJ.Journal:JournalEntry
   stages:
   - image: {fileID: 21300000, guid: 463802f396d24ae4fad8002c4345919a, type: 3}
-    delay: 0
     fadeTime: 1
+    shakeStrength: 0
   - image: {fileID: 21300000, guid: f0f7a5e439965714e8baea7dbb0f38ef, type: 3}
-    delay: 0
-    fadeTime: 1
+    fadeTime: 0.5
+    shakeStrength: 5
