@@ -26,13 +26,16 @@ public class Staircase : MonoBehaviour {
     }
 
     public void TransportObject() {
-        toTransport.GetComponent<Collider2D>().enabled = false;
         //toTransport.GetComponent<SpriteRenderer>().enabled = false;
-        toTransport.GetComponent<SpriteRenderer>().DOFade(0f, 1f);
+        toTransport.GetComponent<SpriteRenderer>().DOFade(0f, 0.5f).OnComplete(() => BeginTransport());
+    }
+
+    void BeginTransport() {
+        toTransport.GetComponent<Collider2D>().enabled = false;
         toTransport.transform.DOMove(linkedStaircase.transform.position, 1f).OnComplete(() => HandleDoneTransport());
     }
 
-    public void HandleDoneTransport() {
+    void HandleDoneTransport() {
         toTransport.GetComponent<SpriteRenderer>().DOFade(1f, 0.5f);
         toTransport.GetComponent<Collider2D>().enabled = true;
     }

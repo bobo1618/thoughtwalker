@@ -9,7 +9,7 @@ public class RoomOverlay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float fadeAmount = 1f;
+        float fadeAmount = 1.0f;
 
         if(isEntered) {
             fadeAmount = 0.5f;
