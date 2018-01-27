@@ -6,19 +6,19 @@ using DG.Tweening;
 
 namespace GGJ.Journal {
 	public class JournalPage : MonoBehaviour {
-		[SerializeField] EntryMapper[] entryMap;
+		[SerializeField] JournalEntryMapper[] entryMap;
 
-		Dictionary<JournalEntry, EntryMapper> entryLookup = new Dictionary<JournalEntry, EntryMapper>();
+		Dictionary<JournalEntry, JournalEntryMapper> entryLookup = new Dictionary<JournalEntry, JournalEntryMapper>();
 
 		void Awake() {
-			foreach (EntryMapper map in entryMap) entryLookup[map.entry] = map;
+			foreach (JournalEntryMapper map in entryMap) entryLookup[map.entry] = map;
 		}
 
 		void Start() {
 			// Reset all the entries
-			foreach (EntryMapper map in entryMap) {
+			foreach (JournalEntryMapper map in entryMap) {
 				map.Initialize();
-				map.SetStage(-1, 0);
+				map.SetStage(-1);
 			}
 		}
 
@@ -28,19 +28,19 @@ namespace GGJ.Journal {
 			return retval;
 		}
 
-		public void SetEntryStage(EntryUnlock unlock) {
-			if (!entryLookup.ContainsKey(unlock.entry) || unlock.stage >= unlock.entry.images.Count) return;
+		public void SetEntryStage(JournalEntryUnlock unlock) {
+			if (!entryLookup.ContainsKey(unlock.entry) || unlock.stage >= unlock.entry.stages.Count) return;
 			StartCoroutine(SetEntryStateCR(unlock));
 		}
 
-		IEnumerator SetEntryStateCR(EntryUnlock unlock) {
-			if (unlock.delay > 0) yield return new WaitForSeconds(unlock.delay);
-			entryLookup[unlock.entry].SetStage(unlock.stage, unlock.fadeTime);
+		IEnumerator SetEntryStateCR(JournalEntryUnlock unlock) {
+			if (unlock.entry.stages[unlock.stage].delay > 0) yield return new WaitForSeconds(unlock.entry.stages[unlock.stage].delay);
+			entryLookup[unlock.entry].SetStage(unlock.stage);
 		}
 	}
 
 	[System.Serializable]
-	public class EntryMapper {
+	public class JournalEntryMapper {
 		public JournalEntry entry;
 		[SerializeField] Image image;
 		public int curStage { get; private set; }
@@ -48,24 +48,29 @@ namespace GGJ.Journal {
 
 		public void Initialize() {
 			fadeImage = Object.Instantiate(image, image.transform.position, image.transform.rotation, image.transform.parent);
+			fadeImage.color = new Color(1, 1, 1, 0);
 			curStage = int.MinValue;
 		}
 
-		public void SetStage(int stage, float fadeTime) {
-			if (stage == curStage || stage >= entry.images.Count) return;
-			Sprite newSprite = stage < 0 ? null : entry.images[stage];
-			image.sprite = newSprite;
-			if (newSprite == null) image.color = new Color(1, 1, 1, 0);
+		public void SetStage(int stageIndex) {
+			if (stageIndex == curStage || stageIndex >= entry.stages.Count) return;
+			JournalEntry.EntryStage stage = stageIndex < 0 ? null : entry.stages[stageIndex];
+			float fadeTime = stage == null ? 0 : Mathf.Max(0, stage.delay);
+
+			fadeImage.sprite = image.sprite;
+			if (fadeImage.sprite == null) fadeImage.color = new Color(1, 1, 1, 0);
+			image.sprite = stage == null ? null : stage.image;
+			if (image.sprite == null) image.color = new Color(1, 1, 1, 0);
+
 			if (fadeTime > 0) {
-				fadeImage.sprite = image.sprite;
-				if (fadeImage.sprite == null)
-					fadeImage.color = new Color(1, 1, 1, 0);
-				else {
+				if (fadeImage.sprite != null) {
 					fadeImage.color = Color.white;
 					fadeImage.DOFade(0, fadeTime).SetEase(Ease.InQuad);
 				}
-				image.color = new Color(1, 1, 1, 0);
-				if (image.sprite != null) image.DOFade(1, fadeTime).SetEase(Ease.OutQuad);
+				if (image.sprite != null) {
+					image.color = new Color(1, 1, 1, 0);
+					image.DOFade(1, fadeTime).SetEase(Ease.OutQuad);
+				}
 			}
 		}
 	}

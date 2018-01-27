@@ -5,10 +5,9 @@ using UnityEngine;
 namespace GGJ.Journal {
 
 	[System.Serializable]
-	public class EntryUnlock {
+	public class JournalEntryUnlock {
 		public JournalEntry entry;
 		public int stage;
-		public float delay = 0, fadeTime = 1;
 	}
 
 	[RequireComponent(typeof(Animator))]
@@ -20,7 +19,10 @@ namespace GGJ.Journal {
 
 		const string PARAM_VISIBLE = "Visible";
 
+		public static Journal Instance { get; private set; }
+
 		void Awake() {
+			Instance = this;
 			animator = GetComponent<Animator>();
 			pages = new List<JournalPage>(GetComponentsInChildren<JournalPage>(true));
 		}
@@ -44,7 +46,7 @@ namespace GGJ.Journal {
 			doAfter.Invoke();
 		}
 
-		public void AddEntry(EntryUnlock unlock) {
+		public void AddEntry(JournalEntryUnlock unlock) {
 			for (int p = 0; p < pages.Count; p++) {
 				int curStage = -1;
 				JournalPage page = pages[p];
@@ -78,6 +80,11 @@ namespace GGJ.Journal {
 
 	[CreateAssetMenu(menuName = "Scriptable Objects/Journal entry")]
 	public class JournalEntry : ScriptableObject {
-		public List<Sprite> images;
+		[System.Serializable]
+		public class EntryStage {
+			public Sprite image;
+			public float delay = 0, fadeTime = 1;
+		}
+		public List<EntryStage> stages;
 	}
 }
