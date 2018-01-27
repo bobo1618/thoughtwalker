@@ -16,14 +16,16 @@ namespace GGJ.Journal {
 	public class Journal : MonoBehaviour {
 		[SerializeField] Text listText;
 
+		public static Journal Instance { get; private set; }
+
+		public delegate void EntryUnlockedEvent(JournalEntry entry);
+		public EntryUnlockedEvent OnEntryUnlocked;
+
 		List<JournalPage> pages;
 		Animator animator;
 		int curPageIndex = int.MinValue;
 		bool isVisible = false;
-
-		const string PARAM_VISIBLE = "Visible";
-
-		public static Journal Instance { get; private set; }
+		System.Action onNextVisible = null;
 
 		void Awake() {
 			Instance = this;
@@ -35,20 +37,26 @@ namespace GGJ.Journal {
 			foreach (JournalPage page in pages) page.gameObject.SetActive(false);
 		}
 
+		public void SetNotifState(bool isOn) {
+			animator.SetBool("Notif", isOn);
+		}
+
 		public void ToggleVisibility() {
 			SetVisibility(!isVisible);
 		}
 
-		public void SetVisibility(bool isOn, System.Action doAfter = null) {
+		public void SetVisibility(bool isOn) {
 			isVisible = isOn;
-			animator.SetBool(PARAM_VISIBLE, isOn);
-			if (doAfter != null) StartCoroutine(PostVisibilityCR(doAfter));
+			animator.SetBool("Visible", isOn);
+			SetNotifState(false);
+			if (onNextVisible != null) StartCoroutine(PostVisibilityCR());
 		}
 
-		IEnumerator PostVisibilityCR(System.Action doAfter) {
+		IEnumerator PostVisibilityCR() {
 			yield return null;
 			yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * (1f - animator.GetCurrentAnimatorStateInfo(0).normalizedTime));
-			doAfter.Invoke();
+			onNextVisible.Invoke();
+			onNextVisible = null;
 		}
 
 		public void AddEntry(JournalEntryUnlock unlock) {
@@ -57,7 +65,9 @@ namespace GGJ.Journal {
 				JournalPage page = pages[p];
 				if (!page.HasEntry(unlock.entry, ref curStage) || curStage == unlock.stage) continue;
 				SetPage(p);
-				SetVisibility(true, () => { page.SetEntryStage(unlock); });
+				SetNotifState(true);
+				onNextVisible = () => page.SetEntryStage(unlock);
+				if (OnEntryUnlocked != null) OnEntryUnlocked(unlock.entry);
 				break;
 			}
 		}
