@@ -1,74 +1,83 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-[System.Serializable]
-public class EntryUnlock {
-	public JournalEntry entry;
-	public int stage;
-}
+namespace GGJ.Journal {
 
-
-public class Journal : MonoBehaviour {
-	[SerializeField] Image entryImage;
-	[SerializeField] JournalEntry[] addAtStart;
-
-	SortedList<float, Sprite> unlockedEntries = new SortedList<float, Sprite>();
-	Animator animator;
-	float curEntryPos = -1;
-	bool isVisible = false;
-
-	const string PARAM_VISIBLE = "Visible";
-
-	void Awake() {
-		animator = GetComponent<Animator>();
+	[System.Serializable]
+	public class EntryUnlock {
+		public JournalEntry entry;
+		public int stage;
+		public float delay = 0, fadeTime = 1;
 	}
 
-	void Start() {
-		foreach (JournalEntry entry in addAtStart) AddEntry(entry, 0);
-	}
+	[RequireComponent(typeof(Animator))]
+	public class Journal : MonoBehaviour {
+		List<JournalPage> pages;
+		Animator animator;
+		int curPageIndex = 0;
+		bool isVisible = false;
 
-	public void ToggleVisibility() {
-		SetVisibility(!isVisible);
-	}
+		const string PARAM_VISIBLE = "Visible";
 
-	public void SetVisibility(bool isOn) {
-		isVisible = isOn;
-		if (animator) animator.SetBool(PARAM_VISIBLE, isOn);
-		else gameObject.SetActive(isOn);
-	}
+		void Awake() {
+			animator = GetComponent<Animator>();
+			pages = new List<JournalPage>(GetComponentsInChildren<JournalPage>(true));
+		}
 
-	public void AddEntry(JournalEntry newEntry, int stage) {
-		if (stage >= 0 && stage < newEntry.images.Length) {
-			unlockedEntries[newEntry.order] = newEntry.images[stage];
-			ChangeEntry(newEntry.order);
+		void Start() {
+			foreach (JournalPage page in pages) page.gameObject.SetActive(false);
+		}
+
+		public void ToggleVisibility() {
+			SetVisibility(!isVisible);
+		}
+
+		public void SetVisibility(bool isOn, System.Action doAfter = null) {
+			isVisible = isOn;
+			animator.SetBool(PARAM_VISIBLE, isOn);
+			if (doAfter != null) StartCoroutine(PostVisibilityCR(doAfter));
+		}
+
+		IEnumerator PostVisibilityCR(System.Action doAfter) {
+			yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+			doAfter.Invoke();
+		}
+
+		public void AddEntry(EntryUnlock unlock) {
+			for (int p = 0; p < pages.Count; p++) {
+				int curStage = -1;
+				JournalPage page = pages[p];
+				if (!page.HasEntry(unlock.entry, ref curStage) || curStage == unlock.stage) continue;
+				SetPage(p);
+				SetVisibility(true, () => { page.SetEntryStage(unlock); });
+				break;
+			}
+		}
+
+		public void TurnPage(bool nextPage) {
+			bool hasPage = SetPage(curPageIndex + (nextPage ? 1 : -1));
+		}
+
+		bool SetPage(int index) {
+			if (index == curPageIndex || index < 0 || index >= pages.Count) return false;
+			pages[curPageIndex].gameObject.SetActive(false);
+			curPageIndex = index;
+			pages[curPageIndex].gameObject.SetActive(true);
+			return true;
+		}
+
+		void Update() {
+			if (Input.GetKeyUp(KeyCode.Space)) ToggleVisibility();
+			if (isVisible) {
+				if (Input.GetKeyUp(KeyCode.RightArrow)) TurnPage(true);
+				else if (Input.GetKeyUp(KeyCode.LeftArrow)) TurnPage(false);
+			}
 		}
 	}
 
-	public void NextEntry(bool forward) {
-		int newIndex = unlockedEntries.IndexOfKey(curEntryPos) + (forward ? 1 : -1);
-		if (newIndex < 0 || newIndex >= unlockedEntries.Count) return;
-		ChangeEntry(unlockedEntries.Keys[newIndex]);
+	[CreateAssetMenu(menuName = "Scriptable Objects/Journal entry")]
+	public class JournalEntry : ScriptableObject {
+		public List<Sprite> images;
 	}
-
-	void ChangeEntry(float entryPos) {
-		if (!unlockedEntries.ContainsKey(entryPos)) return;
-		curEntryPos = entryPos;
-		entryImage.sprite = unlockedEntries[curEntryPos];
-	}
-
-	void Update() {
-		if (Input.GetKeyUp(KeyCode.Space)) ToggleVisibility();
-		if (isVisible) {
-			if (Input.GetKeyUp(KeyCode.RightArrow)) NextEntry(true);
-			else if (Input.GetKeyUp(KeyCode.LeftArrow)) NextEntry(false);
-		}
-	}
-}
-
-[CreateAssetMenu(menuName = "Scriptable Objects/Journal entry")]
-public class JournalEntry : ScriptableObject {
-	public float order;
-	public Sprite[] images;
 }

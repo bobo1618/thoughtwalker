@@ -10,8 +10,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
   m_Name: Entry_1
-  m_EditorClassIdentifier: Assembly-CSharp::JournalEntry
-  order: 0
-  images:
-  - {fileID: 21300000, guid: 0d3ea359139ea264bbc40d093135e512, type: 3}
-  - {fileID: 21300000, guid: 8adf28fedde275a4b8af3e71beeab221, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp:GGJ.Journal:JournalEntry
+  images: []
