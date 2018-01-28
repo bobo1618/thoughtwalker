@@ -593,7 +593,7 @@ MonoBehaviour:
   - entry: {fileID: 11400000, guid: 80ff83253591544449bdbe9f55c4527b, type: 2}
     image: {fileID: 114828957288592486}
   - entry: {fileID: 11400000, guid: e44d060e07476db45b71ce6c0a9823df, type: 2}
-    image: {fileID: 114544431424783138}
+    image: {fileID: 114899208369431436}
   - entry: {fileID: 11400000, guid: 2a152d6ae5efc9a488c8d7ed6d8b2f44, type: 2}
     image: {fileID: 114745960529538634}
 --- !u!114 &114828957288592486
@@ -954,7 +954,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 3
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1083,7 +1083,7 @@ RectTransform:
   m_GameObject: {fileID: 1252493065531424}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 0.009259259, y: 0.009259259, z: 0.009259259}
+  m_LocalScale: {x: 0.0138995955, y: 0.0138995955, z: 0.0138995955}
   m_Children:
   - {fileID: 224339268937153086}
   - {fileID: 224122977829903944}

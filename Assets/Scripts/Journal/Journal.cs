@@ -65,9 +65,17 @@ namespace GGJ.Journal {
 				JournalPage page = pages[p];
 				if (!page.HasEntry(unlock.entry, ref curStage) || curStage == unlock.stage) continue;
 				SetPage(p);
-				SetNotifState(true);
-				onNextVisible.Add(() => page.SetEntryStage(unlock));
-				if (OnEntryUnlocked != null) OnEntryUnlocked(unlock.entry);
+
+				System.Action whenVisible = () => {
+					page.SetEntryStage(unlock);
+					if (OnEntryUnlocked != null) OnEntryUnlocked(unlock.entry);
+				};
+				if (!isVisible) {
+					onNextVisible.Add(whenVisible);
+					SetNotifState(true);
+				}
+				else whenVisible.Invoke();
+
 				break;
 			}
 		}
