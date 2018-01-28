@@ -65,7 +65,7 @@ Material:
     - _DstBlend: 0
     - _Fade: -0.16
     - _FadeRange: 5.4
-    - _FadeValue: 0.5418472
+    - _FadeValue: 0.5984961
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -83,4 +83,4 @@ Material:
     - _Color: {r: 0.7794118, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MoveSpeed: {r: 0, g: 0, b: 0, a: 0}
-    - _TexOffset: {r: 0.7017158, g: 0.6086076, b: 0, a: 0}
+    - _TexOffset: {r: 0.25960046, g: 0.63479674, b: 0, a: 0}

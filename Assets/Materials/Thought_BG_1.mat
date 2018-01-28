@@ -44,7 +44,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 05209f9eb8c49a648a9b2f77647d1764, type: 3}
-        m_Scale: {x: 0.1, y: 0.1}
+        m_Scale: {x: 0.25, y: 0.25}
         m_Offset: {x: 0.8762206, y: 0.24515021}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -65,7 +65,7 @@ Material:
     - _DstBlend: 0
     - _Fade: -0.16
     - _FadeRange: 5.4
-    - _FadeValue: 0.5445254
+    - _FadeValue: 0.5081916
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -83,4 +83,4 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MoveSpeed: {r: 0, g: 0, b: 0, a: 0}
-    - _TexOffset: {r: 0.6498742, g: 0.5407508, b: 0, a: 0}
+    - _TexOffset: {r: 0.8113111, g: 0.77502084, b: 0, a: 0}

@@ -27,12 +27,14 @@ namespace GGJ.Thoughts {
         public Transform thoughtPosition;
         public GameObject thoughtPrefab;
         public Sprite thoughtSprite;
+        [Multiline]
         public string thoughtText;
         public float appearDelay;
         public float fadeDelay;
         public Transform parentTransform;
         public EmotionalState thoughtState;
         public bool autoFade;
+        [Multiline]
         public string scramble;
         public float appearSpeed;
 

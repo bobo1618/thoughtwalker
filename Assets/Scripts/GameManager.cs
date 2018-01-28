@@ -11,22 +11,55 @@ namespace GGJ.Management {
 		[SerializeField] List<GameStage> stages;
 		[SerializeField] float stageEndDelay = 5f;
 		[SerializeField] VideoPlayer videoPlayer;
+        [SerializeField] VideoClip introVideo;
 
 		public static GameManager Instance { get; private set; }
 		public EmotionalState CurState {
 			get { return stages[curStageIndex].state; }
 		}
+		public bool IsVideoPlaying {
+			get { return showingVideoPlayer; }
+		}
 
-		public Dictionary<JournalEntry, bool> toBeUnlocked = new Dictionary<JournalEntry, bool>();
-
+		public delegate void VideoEndEvent();
+		public VideoEndEvent OnVideoEnd;
+		
+		Dictionary<JournalEntry, bool> toBeUnlocked = new Dictionary<JournalEntry, bool>();
 		int curStageIndex = -1;
+		bool showingVideoPlayer = false;
 
 		void Start() {
+            if(introVideo && videoPlayer) {
+                videoPlayer.clip = introVideo;
+                videoPlayer.Play();
+            }
 			Journal.Journal.Instance.OnEntryUnlocked += OnEntryUnlocked;
 			StartCoroutine(NextStage(0));
 		}
 
-		IEnumerator NextStage(float delay) {
+		private void Update() {
+			if (videoPlayer && showingVideoPlayer && !videoPlayer.isPlaying) StopVideo();
+
+#if UNITY_EDITOR
+			if (videoPlayer && videoPlayer.isPlaying && Input.anyKeyDown) StopVideo();
+#endif
+		}
+
+		void PlayVideo(VideoClip clip) {
+			if (!videoPlayer) return;
+			videoPlayer.clip = clip;
+			videoPlayer.Play();
+			showingVideoPlayer = true;
+		}
+
+		void StopVideo() {
+			if (!videoPlayer) return;
+			videoPlayer.Stop();
+			showingVideoPlayer = false;
+			if (OnVideoEnd != null) OnVideoEnd();
+		}
+
+        IEnumerator NextStage(float delay) {
 			yield return new WaitForSeconds(stageEndDelay);
 			if (curStageIndex >= 0) {
 				if (videoPlayer && stages[curStageIndex].stageEndVideo) {

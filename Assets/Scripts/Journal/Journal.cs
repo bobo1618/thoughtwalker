@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GGJ.Management;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +25,7 @@ namespace GGJ.Journal {
 		List<JournalPage> pages;
 		Animator animator;
 		int curPageIndex = int.MinValue;
-		bool isVisible = false;
+		bool isVisible = false, isLocked = false;
 		List<System.Action> onNextVisible = new List<System.Action>();
 
 		void Awake() {
@@ -93,11 +94,15 @@ namespace GGJ.Journal {
 		}
 
 		void Update() {
-			if (Input.GetKeyUp(KeyCode.Space)) ToggleVisibility();
+			if (!isLocked && !(GameManager.Instance && GameManager.Instance.IsVideoPlaying) && Input.GetKeyUp(KeyCode.Space)) ToggleVisibility();
 			if (isVisible) {
 				if (Input.GetKeyUp(KeyCode.RightArrow)) TurnPage(true);
 				else if (Input.GetKeyUp(KeyCode.LeftArrow)) TurnPage(false);
 			}
+		}
+
+		public void Lock(bool turnOn) {
+			isLocked = turnOn;
 		}
 	}
 

@@ -80,7 +80,7 @@ MonoBehaviour:
     - {fileID: 0}
     deactivateOnEnd:
     - {fileID: 0}
-    stageEndVideo: {fileID: 0}
+    stageEndVideo: {fileID: 32900000, guid: 38dee696b666c704788b94dce1f5f6be, type: 3}
   - state: 1
     entriesToUnlock:
     - {fileID: 11400000, guid: fb9de8b009f609e418b8a37d64d10486, type: 2}
@@ -104,9 +104,6 @@ MonoBehaviour:
     - entry: {fileID: 11400000, guid: b94f9c3cd5b572a49b632d8053c3d768, type: 2}
       stage: 1
       delay: 3
-    - entry: {fileID: 11400000, guid: f5b83458eb1565b4bb1cc0462717a946, type: 2}
-      stage: 0
-      delay: 4
     stageEndingEntry: {fileID: 11400000, guid: f5b83458eb1565b4bb1cc0462717a946, type: 2}
     activateOnEnd:
     - {fileID: 0}
@@ -122,6 +119,7 @@ MonoBehaviour:
     stageEndVideo: {fileID: 0}
   stageEndDelay: 5
   videoPlayer: {fileID: 328066202020881902}
+  introVideo: {fileID: 32900000, guid: ab542ac93d2cd8f419b265b16c23e201, type: 3}
 --- !u!328 &328066202020881902
 VideoPlayer:
   m_ObjectHideFlags: 1

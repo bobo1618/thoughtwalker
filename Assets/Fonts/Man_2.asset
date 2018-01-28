@@ -18,7 +18,7 @@ MonoBehaviour:
   m_fontInfo:
     Name: Verdana
     PointSize: 67
-    Scale: 1
+    Scale: 0.75
     CharacterCount: 98
     LineHeight: 81.4375
     Baseline: 0
