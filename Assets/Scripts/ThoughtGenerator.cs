@@ -75,6 +75,13 @@ namespace GGJ.Thoughts {
 
             shownOnce = true;
             thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(thoughtData).OnComplete(() => {
+                if(thoughtUnlocks.Count > 0) {
+                    foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
+                        Journal.Journal.Instance.AddEntry(selectedEntry);
+                    }
+                    thoughtUnlocks.Clear();
+                }
+
                 if(autoFade) {
                     Invoke("FadeThought", fadeDelay);
                 }
@@ -84,12 +91,6 @@ namespace GGJ.Thoughts {
         public void FadeThought() {
             if(onFading != null) {
                 onFading.Invoke();
-            }
-            if(thoughtUnlocks.Count > 0) {
-                foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
-                    Journal.Journal.Instance.AddEntry(selectedEntry);
-                }
-                thoughtUnlocks.Clear();
             }
 
             if(thoughtGenerated != null && thoughtGenerated.GetComponent<SpriteRenderer>() != null) {
