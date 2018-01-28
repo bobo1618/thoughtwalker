@@ -64,7 +64,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1035779090041828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.68, z: 0}
+  m_LocalPosition: {x: 0, y: 1.68, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4574152618225432}
@@ -106,13 +106,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1afff2d07bda3604a8d313a702e1db57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  thoughtUnlocks: []
   thoughtPosition: {fileID: 4999237006435580}
   thoughtPrefab: {fileID: 1732776378957608, guid: 5793a612a14fc204a9b7e7249de48ed8,
     type: 2}
   thoughtSprite: {fileID: 21300000, guid: fcbc52d6e7d54b24ea2137f11ea6dcb8, type: 3}
+  thoughtText: 
   appearDelay: 2
   fadeDelay: 2
-  parentTransform: {fileID: 0}
+  parentTransform: {fileID: 4999237006435580}
   thoughtState: 0
   autoFade: 0
-  thoughtDuration: 1
+  scramble: 
+  oneTimeShow: 0

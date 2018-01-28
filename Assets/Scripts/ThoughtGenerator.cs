@@ -19,6 +19,7 @@ namespace GGJ.Thoughts {
         public float fadeDelay;
         public string message;
         public bool autoFade;
+        public float speed;
     }
 
     public class ThoughtGenerator : MonoBehaviour {
@@ -33,6 +34,7 @@ namespace GGJ.Thoughts {
         public EmotionalState thoughtState;
         public bool autoFade;
         public string scramble;
+        public float appearSpeed;
 
         public bool oneTimeShow = false;
 
@@ -69,6 +71,7 @@ namespace GGJ.Thoughts {
             thoughtData.message = thoughtText;
             thoughtData.fadeDelay = fadeDelay;
             thoughtData.scramble = scramble;
+            thoughtData.speed = appearSpeed;
 
             shownOnce = true;
             thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(thoughtData).OnComplete(() => {

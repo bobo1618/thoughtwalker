@@ -12,6 +12,7 @@ namespace GGJ.Thoughts {
         string thoughtText;
         float disappearDelay;
         string scramble;
+        float speed;
 
         public void Awake() {
             sequence = DOTween.Sequence();
@@ -29,24 +30,26 @@ namespace GGJ.Thoughts {
             disappearDelay = thoughtData.fadeDelay;
             autoFade = thoughtData.autoFade;
             scramble = thoughtData.scramble;
-
-            sequence.Append(sRenderer.DOFade(1.0f, 1.0f));
+            speed = thoughtData.speed;
 
             TextMeshPro textMesh = GetComponentInChildren<TextMeshPro>();
+            sRenderer.DOFade(1.0f, 1.0f);
 
-            int s = 0;
-            float speed = 20;
-            textMesh.DOFade(1.0f, 1.0f);
-
-            sequence.Append(DOTween.To(() => s, strLen => {
-                if(scramble != string.Empty) {
-                    string newText = thoughtText.Substring(0, strLen) + scramble.Substring(strLen, thoughtText.Length - strLen);
-                    textMesh.text = newText;
-                } else {
-                    textMesh.text = thoughtText.Substring(0, strLen);
-                }
-            }, thoughtText.Length, thoughtText.Length / speed).SetEase(Ease.OutQuad));
-
+            if(scramble == string.Empty) {
+                textMesh.text = thoughtText;
+                sequence.Append(textMesh.DOFade(1.0f, 1.0f).SetEase(Ease.OutQuad));
+            } else {
+                int s = 0;
+                textMesh.DOFade(1.0f, 1.5f);
+                sequence.Append(DOTween.To(() => s, strLen => {
+                    if(scramble != string.Empty) {
+                        string newText = thoughtText.Substring(0, strLen) + scramble.Substring(strLen, thoughtText.Length - strLen);
+                        textMesh.text = newText;
+                    } else {
+                        textMesh.text = thoughtText.Substring(0, strLen);
+                    }
+                }, thoughtText.Length, thoughtText.Length / speed).SetEase(Ease.Linear));
+            }
             return sequence;
         }
 

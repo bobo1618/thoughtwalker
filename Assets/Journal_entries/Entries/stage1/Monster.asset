@@ -15,3 +15,6 @@ MonoBehaviour:
   - image: {fileID: 21300000, guid: 95af8ea223a5e7447ab4b1cb9769ac23, type: 3}
     fadeTime: 1
     shakeStrength: 0
+  - image: {fileID: 21300000, guid: 95af8ea223a5e7447ab4b1cb9769ac23, type: 3}
+    fadeTime: 1
+    shakeStrength: 0
