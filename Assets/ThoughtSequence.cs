@@ -24,7 +24,7 @@ namespace GGJ.Thoughts {
         }
 
         void NextThought() {
-            thoughtGenerators[0].GenerateThought(() => {
+            thoughtGenerators[0].SetCallback(() => {
                 thoughtGenerators.RemoveAt(0);
                 Debug.Log(thoughtGenerators.Count);
                 if(thoughtGenerators.Count > 0)
@@ -33,6 +33,7 @@ namespace GGJ.Thoughts {
                     // thing at end
                 }
             });
+            thoughtGenerators[0].GenerateThought();
         }
 
         private void OnTriggerEnter2D(Collider2D other) {

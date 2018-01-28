@@ -41,17 +41,19 @@ namespace GGJ.Thoughts {
         private GameObject thoughtGenerated;
         private bool shownOnce;
 
-        public void GenerateThought(System.Action callback = null) {
+        public void SetCallback(System.Action callback = null) {
+            if(callback != null) {
+                onFading = callback;
+            }
+        }
+
+        public void GenerateThought() {
             if(thoughtGenerated != null) {
                 return;
             }
 
             if(oneTimeShow && shownOnce) {
                 return;
-            }
-
-            if(callback != null) {
-                onFading = callback;
             }
 
             if(parentTransform == null) {
@@ -68,6 +70,7 @@ namespace GGJ.Thoughts {
             thoughtData.fadeDelay = fadeDelay;
             thoughtData.scramble = scramble;
 
+            shownOnce = true;
             thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(thoughtData).OnComplete(() => {
                 if(autoFade) {
                     Invoke("FadeThought", fadeDelay);
@@ -93,15 +96,15 @@ namespace GGJ.Thoughts {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if(other.gameObject.tag == "Player") {
-                GenerateThought();
+                Invoke("GenerateThought", appearDelay);
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if(other.gameObject.tag == "Player") {
-                CancelInvoke("FadeThought");
-                if(thoughtGenerated != null) {
-                    FadeThought();
+                CancelInvoke("GenerateThought");
+                if(shownOnce == true) {
+                    Invoke("FadeThought", fadeDelay);
                 }
             }
         }

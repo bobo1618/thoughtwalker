@@ -30,7 +30,7 @@ namespace GGJ.Thoughts {
             autoFade = thoughtData.autoFade;
             scramble = thoughtData.scramble;
 
-            sequence.Append(sRenderer.DOFade(1.0f, 1.0f).SetDelay(thoughtData.appearDelay));
+            sequence.Append(sRenderer.DOFade(1.0f, 1.0f));
 
             TextMeshPro textMesh = GetComponentInChildren<TextMeshPro>();
 
