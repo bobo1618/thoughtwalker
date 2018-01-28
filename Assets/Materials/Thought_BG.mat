@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Scribble_BG
+  m_Name: Thought_BG
   m_Shader: {fileID: 4800000, guid: 1592733a7b6dde14c928e38deffed848, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
@@ -44,7 +44,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: e7219ca05816c97488df251d83891d9e, type: 3}
-        m_Scale: {x: 0.4, y: 0.2}
+        m_Scale: {x: 0.1, y: 0.1}
         m_Offset: {x: 0.8762206, y: 0.24515021}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -83,3 +83,4 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MoveSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _TexOffset: {r: 0.21999681, g: 0.24991024, b: 0, a: 0}

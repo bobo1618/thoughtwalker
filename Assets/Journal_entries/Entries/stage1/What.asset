@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: What
+  m_EditorClassIdentifier: Assembly-CSharp:GGJ.Journal:JournalEntry
+  stages:
+  - image: {fileID: 21300000, guid: 192e2c71863ae634ca47727dc5fbfd30, type: 3}
+    fadeTime: 1
+    shakeStrength: 0
+  - image: {fileID: 21300000, guid: 520ce1097f4c7b740825463448ffbe2a, type: 3}
+    fadeTime: 1
+    shakeStrength: 2.5

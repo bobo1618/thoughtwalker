@@ -43,6 +43,7 @@ namespace GGJ.Management {
 			foreach (bool isUnlocked in toBeUnlocked.Keys) stageComplete &= isUnlocked;
 			if (stageComplete) {
 				foreach (GameObject actGO in stages[curStageIndex].activateOnEnd) actGO.SetActive(true);
+				foreach (GameObject actGO in stages[curStageIndex].deactivateOnEnd) actGO.SetActive(false);
 			}
 		}
 	}
@@ -51,7 +52,7 @@ namespace GGJ.Management {
 	public class GameStage {
 		public EmotionalState state;
 		public List<JournalEntry> entriesToUnlock;
-		public List<GameObject> activateOnEnd;
+		public List<GameObject> activateOnEnd, deactivateOnEnd;
 		public Transform playerStartPoint;
 	}
 }

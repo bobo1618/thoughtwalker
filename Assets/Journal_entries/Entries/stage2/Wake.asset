@@ -9,12 +9,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Entry_1
+  m_Name: Wake
   m_EditorClassIdentifier: Assembly-CSharp:GGJ.Journal:JournalEntry
   stages:
-  - image: {fileID: 21300000, guid: 463802f396d24ae4fad8002c4345919a, type: 3}
+  - image: {fileID: 21300000, guid: 927a74aaff5774240a0b4b9c795f7079, type: 3}
     fadeTime: 1
-    shakeStrength: 0
-  - image: {fileID: 21300000, guid: f0f7a5e439965714e8baea7dbb0f38ef, type: 3}
-    fadeTime: 0.5
+    shakeStrength: 1
+  - image: {fileID: 21300000, guid: 5b20dc99ddab2544894a507c3a385c7d, type: 3}
+    fadeTime: 1
     shakeStrength: 5

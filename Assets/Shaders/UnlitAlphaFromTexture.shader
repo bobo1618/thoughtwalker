@@ -5,6 +5,7 @@ Shader "Custom/Unlit Transparency From Texture" {
 	  _MainTex ("Base (RGBA)", 2D) = "white" {}
 	  _AlphaTex ("Alpha (RGBA)", 2D) = "white" {}
 	  _Color("Color", Color) = (1,1,1,1)
+	[HideInInspector]_TexOffset("Texture offset", Vector) = (0,0,0,0)
 	  _FadeValue ("Fade", float) = 0.5
 	  _Sharpness ("Sharpness", Range(0,10)) = 0
 	}
@@ -26,12 +27,12 @@ Shader "Custom/Unlit Transparency From Texture" {
 					float2 uv_AlphaTex : TEXCOORD1;
 				};
 			
-				float4 _MainTex_ST, _AlphaTex_ST;
+				float4 _MainTex_ST, _AlphaTex_ST, _TexOffset;
 			
 				v2f vert(appdata_base v) {
 					v2f o;
 					o.pos = UnityObjectToClipPos(v.vertex);
-					o.uv_MainTex = TRANSFORM_TEX(v.texcoord, _MainTex);
+					o.uv_MainTex = TRANSFORM_TEX(mul(UNITY_MATRIX_M, v.vertex).xy, _MainTex) + _TexOffset;
 					o.uv_AlphaTex = TRANSFORM_TEX(v.texcoord, _AlphaTex);
 					return o;
 				}
