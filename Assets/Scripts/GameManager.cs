@@ -52,5 +52,6 @@ namespace GGJ.Management {
 		public EmotionalState state;
 		public List<JournalEntry> entriesToUnlock;
 		public List<GameObject> activateOnEnd;
+		public Transform playerStartPoint;
 	}
 }
