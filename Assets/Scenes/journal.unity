@@ -243,7 +243,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1502995580
+  randomSeed: 2013805781
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3575,93 +3575,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &583580857
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 583580861}
-  - component: {fileID: 583580860}
-  - component: {fileID: 583580859}
-  - component: {fileID: 583580858}
-  m_Layer: 0
-  m_Name: Quad
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &583580858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 583580857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30acdec8f292d584f81cdc6f4d98382e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  matToRandomize: {fileID: 2100000, guid: cc88109a35b3c744884dd16025fbdc23, type: 2}
-  updateInterval: 0.05
-  fadeMin: 0
-  fadeMax: 0
---- !u!23 &583580859
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 583580857}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: cc88109a35b3c744884dd16025fbdc23, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &583580860
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 583580857}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &583580861
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 583580857}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.31, y: 0.16, z: 0}
-  m_LocalScale: {x: 5.1194234, y: 2.0477722, z: 1.0238861}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1276535436
 Prefab:
   m_ObjectHideFlags: 0
@@ -3794,9 +3707,106 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 204.09802
       objectReference: {fileID: 0}
+    - target: {fileID: 1623649783486920, guid: ea7abd8b6e0406047ad7b61a5b31988d, type: 2}
+      propertyPath: m_Name
+      value: Entry (Demongoat)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ea7abd8b6e0406047ad7b61a5b31988d, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1728002159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1728002161}
+  - component: {fileID: 1728002160}
+  - component: {fileID: 1728002162}
+  - component: {fileID: 1728002164}
+  - component: {fileID: 1728002163}
+  m_Layer: 0
+  m_Name: Material randomizer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1728002160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1728002159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30acdec8f292d584f81cdc6f4d98382e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matToRandomize: {fileID: 2100000, guid: cc88109a35b3c744884dd16025fbdc23, type: 2}
+  updateInterval: 0.15
+  fadeMin: 0.4
+  fadeMax: 0.6
+--- !u!4 &1728002161
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1728002159}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.23099566, y: 0.4115177, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1728002162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1728002159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30acdec8f292d584f81cdc6f4d98382e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matToRandomize: {fileID: 2100000, guid: 1ec7761a23cde1248ac750fcac93f39f, type: 2}
+  updateInterval: 0.1
+  fadeMin: 0.35
+  fadeMax: 0.65
+--- !u!114 &1728002163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1728002159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeeea949dcad5d34d9b38a3da749963c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMat: {fileID: 21090771011056894, guid: 69e524f9fb729dc439ebb15d57ad1d2e, type: 2}
+  fromVal: -0.05
+  toVal: 0.15
+  durationMin: 0.075
+  durationMax: 0.125
+--- !u!114 &1728002164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1728002159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30acdec8f292d584f81cdc6f4d98382e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matToRandomize: {fileID: 2100000, guid: cf012ae320554be4aa65fb1b71a58861, type: 2}
+  updateInterval: 0.05
+  fadeMin: 0.25
+  fadeMax: 0.75
 --- !u!1 &1995713384
 GameObject:
   m_ObjectHideFlags: 0
@@ -3838,7 +3848,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.28676468, g: 0.28676468, b: 0.28676468, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

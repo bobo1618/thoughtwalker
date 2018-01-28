@@ -25,7 +25,7 @@ namespace GGJ.Journal {
 		Animator animator;
 		int curPageIndex = int.MinValue;
 		bool isVisible = false;
-		System.Action onNextVisible = null;
+		List<System.Action> onNextVisible = new List<System.Action>();
 
 		void Awake() {
 			Instance = this;
@@ -49,14 +49,14 @@ namespace GGJ.Journal {
 			isVisible = isOn;
 			animator.SetBool("Visible", isOn);
 			SetNotifState(false);
-			if (onNextVisible != null) StartCoroutine(PostVisibilityCR());
+			if (onNextVisible.Count > 0) StartCoroutine(PostVisibilityCR());
 		}
 
 		IEnumerator PostVisibilityCR() {
 			yield return null;
 			yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * (1f - animator.GetCurrentAnimatorStateInfo(0).normalizedTime));
-			onNextVisible.Invoke();
-			onNextVisible = null;
+			foreach (var action in onNextVisible) action.Invoke();
+			onNextVisible.Clear();
 		}
 
 		public void AddEntry(JournalEntryUnlock unlock) {
@@ -66,7 +66,7 @@ namespace GGJ.Journal {
 				if (!page.HasEntry(unlock.entry, ref curStage) || curStage == unlock.stage) continue;
 				SetPage(p);
 				SetNotifState(true);
-				onNextVisible = () => page.SetEntryStage(unlock);
+				onNextVisible.Add(() => page.SetEntryStage(unlock));
 				if (OnEntryUnlocked != null) OnEntryUnlocked(unlock.entry);
 				break;
 			}
