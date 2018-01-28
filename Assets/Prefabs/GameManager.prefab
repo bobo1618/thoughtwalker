@@ -76,15 +76,42 @@ MonoBehaviour:
       stage: 0
       delay: 4
     stageEndingEntry: {fileID: 11400000, guid: e44d060e07476db45b71ce6c0a9823df, type: 2}
-    activateOnEnd: []
-    deactivateOnEnd: []
+    activateOnEnd:
+    - {fileID: 0}
+    deactivateOnEnd:
+    - {fileID: 0}
     stageEndVideo: {fileID: 0}
-  - state: 0
-    entriesToUnlock: []
-    unlockAfterAllUnlocked: []
-    stageEndingEntry: {fileID: 0}
-    activateOnEnd: []
-    deactivateOnEnd: []
+  - state: 1
+    entriesToUnlock:
+    - {fileID: 11400000, guid: fb9de8b009f609e418b8a37d64d10486, type: 2}
+    - {fileID: 11400000, guid: 53279e034dec380478c74814941e80d8, type: 2}
+    - {fileID: 11400000, guid: 1876678c0beffca4ca4edb0adf20113d, type: 2}
+    - {fileID: 11400000, guid: 2188b55f16dd3cf458ca29c3736e3cfa, type: 2}
+    - {fileID: 11400000, guid: b94f9c3cd5b572a49b632d8053c3d768, type: 2}
+    unlockAfterAllUnlocked:
+    - entry: {fileID: 11400000, guid: 53279e034dec380478c74814941e80d8, type: 2}
+      stage: 1
+      delay: 1
+    - entry: {fileID: 11400000, guid: 1876678c0beffca4ca4edb0adf20113d, type: 2}
+      stage: 1
+      delay: 1.5
+    - entry: {fileID: 11400000, guid: 2188b55f16dd3cf458ca29c3736e3cfa, type: 2}
+      stage: 1
+      delay: 2
+    - entry: {fileID: 11400000, guid: fb9de8b009f609e418b8a37d64d10486, type: 2}
+      stage: 1
+      delay: 2.5
+    - entry: {fileID: 11400000, guid: b94f9c3cd5b572a49b632d8053c3d768, type: 2}
+      stage: 1
+      delay: 3
+    - entry: {fileID: 11400000, guid: f5b83458eb1565b4bb1cc0462717a946, type: 2}
+      stage: 0
+      delay: 4
+    stageEndingEntry: {fileID: 11400000, guid: f5b83458eb1565b4bb1cc0462717a946, type: 2}
+    activateOnEnd:
+    - {fileID: 0}
+    deactivateOnEnd:
+    - {fileID: 0}
     stageEndVideo: {fileID: 0}
   - state: 0
     entriesToUnlock: []
