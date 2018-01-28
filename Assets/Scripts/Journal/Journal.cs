@@ -81,7 +81,7 @@ namespace GGJ.Journal {
 			if (curPageIndex >= 0 && curPageIndex < pages.Count) pages[curPageIndex].gameObject.SetActive(false);
 			curPageIndex = index;
 			pages[curPageIndex].gameObject.SetActive(true);
-			listText.text = (curPageIndex + 1) + "/" + pages.Count;
+			if (listText) listText.text = (curPageIndex + 1) + "/" + pages.Count;
 		}
 
 		void Update() {
@@ -90,13 +90,6 @@ namespace GGJ.Journal {
 				if (Input.GetKeyUp(KeyCode.RightArrow)) TurnPage(true);
 				else if (Input.GetKeyUp(KeyCode.LeftArrow)) TurnPage(false);
 			}
-		}
-
-		// FOR TESTING ONLY
-		[SerializeField]
-		JournalEntryUnlock[] unlockList;
-		public void AddEntryIndex(int index) {
-			AddEntry(unlockList[index]);
 		}
 	}
 
