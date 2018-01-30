@@ -12,8 +12,7 @@ namespace GGJ.Audio {
 		[SerializeField] AudioMixer mixer;
 		[SerializeField] AudioMixerGroup bgmGroup, sfxGroup;
 
-		AudioSource bgmSource;
-		AudioSource sfxSource;
+		AudioSource bgmSource, sfxSource;
 		Tweener pitchTweener = null, distortTweener = null;
 		[SerializeField] float pitchChangeAmount = 5, distortAmount = 1f;
 		[SerializeField] AnimationCurve distortCurve;
@@ -25,10 +24,11 @@ namespace GGJ.Audio {
 			bgmSource.playOnAwake = false;
 			bgmSource.loop = true;
 			bgmSource.outputAudioMixerGroup = bgmGroup;
+
 			sfxSource = gameObject.AddComponent<AudioSource>();
 			sfxSource.playOnAwake = false;
 			sfxSource.loop = false;
-			bgmSource.outputAudioMixerGroup = sfxGroup;
+			sfxSource.outputAudioMixerGroup = sfxGroup;
 		}
 
 		void Start() {

@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7cda3da0a5657347b2b1852a8209eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingBGM: {fileID: 8300000, guid: ba4f7cf9101a72048a72b277450d3b31, type: 3}
+  startingBGM: {fileID: 0}
   mixer: {fileID: 24100000, guid: 8878da101aa662b46839e31f0a926d8d, type: 2}
   bgmGroup: {fileID: 243244610151193062, guid: 8878da101aa662b46839e31f0a926d8d, type: 2}
   sfxGroup: {fileID: 243641249945578446, guid: 8878da101aa662b46839e31f0a926d8d, type: 2}

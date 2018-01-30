@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BG: {fileID: 4397798050737230}
-  origBGScale: {x: 1.6, y: 1.6, z: 0}
+  thoughtMargin: {x: 1, y: 1}
 --- !u!114 &114743442987165762
 MonoBehaviour:
   m_ObjectHideFlags: 1

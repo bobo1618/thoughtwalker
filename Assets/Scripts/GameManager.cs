@@ -11,14 +11,14 @@ namespace GGJ.Management {
 		[SerializeField] List<GameStage> stages;
 		[SerializeField] float stageEndDelay = 5f;
 		[SerializeField] VideoPlayer videoPlayer;
-        [SerializeField] VideoClip introVideo;
+        [SerializeField] string introVideo;
 
 		public static GameManager Instance { get; private set; }
 		public EmotionalState CurState {
 			get { return stages[curStageIndex].state; }
 		}
 		public bool IsVideoPlaying {
-			get { return showingVideoPlayer; }
+			get { return isVideoPlaying; }
 		}
 
 		public delegate void VideoEndEvent();
@@ -26,36 +26,33 @@ namespace GGJ.Management {
 		
 		Dictionary<JournalEntry, bool> toBeUnlocked = new Dictionary<JournalEntry, bool>();
 		int curStageIndex = -1;
-		bool showingVideoPlayer = false;
+		bool isVideoPlaying = false;
 
 		void Start() {
-            if(introVideo && videoPlayer) {
-                videoPlayer.clip = introVideo;
-                videoPlayer.Play();
-            }
+			if (!string.IsNullOrEmpty(introVideo)) PlayVideo(introVideo);
 			Journal.Journal.Instance.OnEntryUnlocked += OnEntryUnlocked;
 			StartCoroutine(NextStage(0));
 		}
 
 		private void Update() {
-			if (videoPlayer && showingVideoPlayer && !videoPlayer.isPlaying) StopVideo();
+			if (videoPlayer && isVideoPlaying && !videoPlayer.isPlaying) StopVideo();
 
 #if UNITY_EDITOR
 			if (videoPlayer && videoPlayer.isPlaying && Input.anyKeyDown) StopVideo();
 #endif
 		}
 
-		void PlayVideo(VideoClip clip) {
-			if (!videoPlayer) return;
-			videoPlayer.clip = clip;
+		void PlayVideo(string videoName) {
+			if (!videoPlayer || isVideoPlaying) return;
+			videoPlayer.url = "file://" + Application.streamingAssetsPath + "/" + videoName;
 			videoPlayer.Play();
-			showingVideoPlayer = true;
+			isVideoPlaying = true;
 		}
 
 		void StopVideo() {
 			if (!videoPlayer) return;
 			videoPlayer.Stop();
-			showingVideoPlayer = false;
+			isVideoPlaying = false;
 			if (OnVideoEnd != null) OnVideoEnd();
 		}
 

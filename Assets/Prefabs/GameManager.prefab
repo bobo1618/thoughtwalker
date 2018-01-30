@@ -104,13 +104,16 @@ MonoBehaviour:
     - entry: {fileID: 11400000, guid: b94f9c3cd5b572a49b632d8053c3d768, type: 2}
       stage: 1
       delay: 3
+    - entry: {fileID: 11400000, guid: f5b83458eb1565b4bb1cc0462717a946, type: 2}
+      stage: 0
+      delay: 4
     stageEndingEntry: {fileID: 11400000, guid: f5b83458eb1565b4bb1cc0462717a946, type: 2}
     activateOnEnd:
     - {fileID: 0}
     deactivateOnEnd:
     - {fileID: 0}
     stageEndVideo: {fileID: 0}
-  - state: 0
+  - state: 2
     entriesToUnlock: []
     unlockAfterAllUnlocked: []
     stageEndingEntry: {fileID: 0}
@@ -119,7 +122,7 @@ MonoBehaviour:
     stageEndVideo: {fileID: 0}
   stageEndDelay: 5
   videoPlayer: {fileID: 328066202020881902}
-  introVideo: {fileID: 32900000, guid: ab542ac93d2cd8f419b265b16c23e201, type: 3}
+  introVideo: GGJ intro.mp4
 --- !u!328 &328066202020881902
 VideoPlayer:
   m_ObjectHideFlags: 1
@@ -136,7 +139,7 @@ VideoPlayer:
   m_TargetMaterialProperty: _MainTex
   m_RenderMode: 1
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources: []
@@ -145,7 +148,7 @@ VideoPlayer:
   m_EnabledAudioTracks: 
   m_DirectAudioMutes: 
   m_ControlledAudioTrackCount: 0
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 0
   m_WaitForFirstFrame: 1
