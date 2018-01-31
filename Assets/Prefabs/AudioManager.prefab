@@ -55,6 +55,8 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 8878da101aa662b46839e31f0a926d8d, type: 2}
   bgmGroup: {fileID: 243244610151193062, guid: 8878da101aa662b46839e31f0a926d8d, type: 2}
   sfxGroup: {fileID: 243641249945578446, guid: 8878da101aa662b46839e31f0a926d8d, type: 2}
+  videoGroup: {fileID: 243189603995709920, guid: 8878da101aa662b46839e31f0a926d8d,
+    type: 2}
   pitchChangeAmount: 0
   distortAmount: 0
   distortCurve:

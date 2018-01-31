@@ -7,6 +7,7 @@ using TMPro;
 namespace GGJ.Thoughts {
     public class ThoughtScript : MonoBehaviour {
         public Transform BG;
+		public string scrambleColor = "ffffff88";
 		public Vector2 thoughtMargin;
 
         Sequence sequence;
@@ -14,7 +15,7 @@ namespace GGJ.Thoughts {
         string thoughtText;
         float disappearDelay;
         string scramble;
-        float speed;
+		float appearDuration;
 
         public void Awake() {
             sequence = DOTween.Sequence();
@@ -28,12 +29,12 @@ namespace GGJ.Thoughts {
             disappearDelay = thoughtData.fadeDelay;
             autoFade = thoughtData.autoFade;
             scramble = thoughtData.scramble;
-            speed = thoughtData.speed;
-			
-            TextMeshPro textMesh = GetComponentInChildren<TextMeshPro>();
-			Vector3 bgScaleMult = new Vector3(1f / transform.lossyScale.x, 1f / transform.lossyScale.y, 1);
+			if (!string.IsNullOrEmpty(scramble)) while (scramble.Length < thoughtText.Length) scramble += thoughtData.scramble;
+			appearDuration = thoughtText.Length / thoughtData.speed;
+
+			TextMeshPro textMesh = GetComponentInChildren<TextMeshPro>();
 			float bgScaleFactor = 0;
-			DOTween.To(() => bgScaleFactor, scale => bgScaleFactor = scale, 1f, 1f).SetEase(Ease.OutSine);
+			DOTween.To(() => bgScaleFactor, scale => bgScaleFactor = scale, 1f, Mathf.Min(0.67f, appearDuration)).SetEase(Ease.OutSine);
 
 			//if (scramble == string.Empty) {
    //             textMesh.text = thoughtText;
@@ -41,7 +42,8 @@ namespace GGJ.Thoughts {
    //         } else {
             int strIndex = 0;
             textMesh.DOFade(1.0f, 1.5f);
-			string scrambleText = !string.IsNullOrEmpty(scramble) ? scramble.Substring(0, thoughtText.Length) : string.Empty, temp = thoughtText;
+			string scrambleText = !string.IsNullOrEmpty(scramble) ? scramble.Substring(0, thoughtText.Length) : string.Empty;
+			string temp = thoughtText;
 			if (!string.IsNullOrEmpty(scrambleText)) {
 				int newlineIndex = temp.IndexOf('\n');
 				while (newlineIndex >= 0) {
@@ -51,14 +53,17 @@ namespace GGJ.Thoughts {
 			}
             sequence.Append(DOTween.To(() => strIndex, strLen => {
                 if(scrambleText != string.Empty) {
-                    string newText = thoughtText.Substring(0, strLen) + "<color=#ffffff66>" + scrambleText.Substring(strLen, thoughtText.Length - strLen) + "</color>";
+					string newText = string.Format("{0}<color=#{1}>{2}</color>",
+						thoughtText.Substring(0, strLen),
+						scrambleColor,
+						scrambleText.Substring(strLen, thoughtText.Length - strLen));
                     textMesh.text = newText;
                 } else {
                     textMesh.text = thoughtText.Substring(0, strLen);
                 }
 				// Match BG size to text bounds
-				BG.localScale = (Vector3.Scale(textMesh.bounds.extents, bgScaleMult) + (Vector3)thoughtMargin) * bgScaleFactor;
-            }, thoughtText.Length, thoughtText.Length / speed).SetEase(Ease.Linear));
+				BG.localScale = (textMesh.bounds.size + (Vector3)thoughtMargin) * bgScaleFactor;
+			}, thoughtText.Length, appearDuration).SetEase(Ease.Linear));
             //}
             return sequence;
         }

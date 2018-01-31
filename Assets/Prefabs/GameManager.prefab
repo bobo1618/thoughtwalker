@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1803228144090370}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.770195, y: 7.4674377, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -122,7 +122,7 @@ MonoBehaviour:
     stageEndVideo: {fileID: 0}
   stageEndDelay: 5
   videoPlayer: {fileID: 328066202020881902}
-  introVideo: GGJ intro.mp4
+  introVideo: {fileID: 32900000, guid: ab542ac93d2cd8f419b265b16c23e201, type: 3}
 --- !u!328 &328066202020881902
 VideoPlayer:
   m_ObjectHideFlags: 1
@@ -138,8 +138,8 @@ VideoPlayer:
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: _MainTex
   m_RenderMode: 1
-  m_AspectRatio: 2
-  m_DataSource: 1
+  m_AspectRatio: 3
+  m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 1
   m_TargetAudioSources: []
@@ -151,5 +151,5 @@ VideoPlayer:
   m_PlayOnAwake: 0
   m_SkipOnDrop: 1
   m_Looping: 0
-  m_WaitForFirstFrame: 1
+  m_WaitForFirstFrame: 0
   m_FrameReadyEventEnabled: 0

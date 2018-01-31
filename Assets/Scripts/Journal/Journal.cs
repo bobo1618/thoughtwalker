@@ -22,6 +22,8 @@ namespace GGJ.Journal {
 		public delegate void EntryUnlockedEvent(JournalEntry entry);
 		public EntryUnlockedEvent OnEntryUnlocked;
 
+		public bool IsVisible { get { return isVisible; } }
+
 		List<JournalPage> pages;
 		Animator animator;
 		int curPageIndex = int.MinValue;
@@ -94,11 +96,11 @@ namespace GGJ.Journal {
 		}
 
 		void Update() {
-			if (!isLocked && !(GameManager.Instance && GameManager.Instance.IsVideoPlaying) && Input.GetKeyUp(KeyCode.Space)) ToggleVisibility();
-			if (isVisible) {
-				if (Input.GetKeyUp(KeyCode.RightArrow)) TurnPage(true);
-				else if (Input.GetKeyUp(KeyCode.LeftArrow)) TurnPage(false);
-			}
+			if (!isLocked && (!GameManager.Instance || !GameManager.Instance.IsVideoPlaying) && Input.GetKeyDown(KeyCode.Space)) ToggleVisibility();
+			//if (isVisible) {
+			//	if (Input.GetKeyUp(KeyCode.RightArrow)) TurnPage(true);
+			//	else if (Input.GetKeyUp(KeyCode.LeftArrow)) TurnPage(false);
+			//}
 		}
 
 		public void Lock(bool turnOn) {

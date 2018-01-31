@@ -18,7 +18,7 @@ MonoBehaviour:
   m_fontInfo:
     Name: Courier New
     PointSize: 81
-    Scale: 0.75
+    Scale: 1
     CharacterCount: 98
     LineHeight: 91.75
     Baseline: 0
@@ -976,7 +976,7 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: cour_SDF Material
   m_Shader: {fileID: 4800000, guid: cafd18099dfc0114896e0a8b277b81b6, type: 3}
-  m_ShaderKeywords: MASK_SOFT
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

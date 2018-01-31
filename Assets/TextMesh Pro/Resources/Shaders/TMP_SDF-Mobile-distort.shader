@@ -115,7 +115,7 @@ SubShader {
 
 			float4 vert = input.vertex;
 			// Apply distort
-			vert.xy += float2(sin((_Time.w + vert.x) * 1.25) * (vert.x % 0.67) / 0.5, cos((_Time.w + vert.y) * 1.75) * (vert.y % 0.15) / 0.15) / 30;
+			vert.xy += float2(sin((_Time.w + vert.x) * 1) * (vert.x % 0.67) / 0.5, cos((_Time.w + vert.y) * 1.15) * (vert.y % 0.85) / 0.5) / 30;
 
 			vert.x += _VertexOffsetX;
 			vert.y += _VertexOffsetY;

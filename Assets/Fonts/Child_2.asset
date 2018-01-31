@@ -18,7 +18,7 @@ MonoBehaviour:
   m_fontInfo:
     Name: AR CHRISTY
     PointSize: 69
-    Scale: 0.8
+    Scale: 1
     CharacterCount: 97
     LineHeight: 88.1875
     Baseline: 0
@@ -1050,7 +1050,7 @@ Material:
     m_Colors:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
-    - _FaceColor: {r: 0.24264705, g: 0, b: 0, a: 1}
+    - _FaceColor: {r: 0.78242934, g: 0.9705882, b: 0.48339096, a: 1}
     - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
     - _OutlineColor: {r: 1, g: 0, b: 0.07692242, a: 1}

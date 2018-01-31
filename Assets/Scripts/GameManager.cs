@@ -11,7 +11,7 @@ namespace GGJ.Management {
 		[SerializeField] List<GameStage> stages;
 		[SerializeField] float stageEndDelay = 5f;
 		[SerializeField] VideoPlayer videoPlayer;
-        [SerializeField] string introVideo;
+        [SerializeField] VideoClip introVideo;
 
 		public static GameManager Instance { get; private set; }
 		public EmotionalState CurState {
@@ -26,27 +26,34 @@ namespace GGJ.Management {
 		
 		Dictionary<JournalEntry, bool> toBeUnlocked = new Dictionary<JournalEntry, bool>();
 		int curStageIndex = -1;
-		bool isVideoPlaying = false;
+		bool isVideoPlaying = false, allEntriesUnlocked = false;
 
 		void Start() {
-			if (!string.IsNullOrEmpty(introVideo)) PlayVideo(introVideo);
+			if (videoPlayer && AudioManager.VideoSource) videoPlayer.SetTargetAudioSource(0, AudioManager.VideoSource);
+			if (introVideo) PlayVideo(introVideo);
 			Journal.Journal.Instance.OnEntryUnlocked += OnEntryUnlocked;
 			StartCoroutine(NextStage(0));
 		}
 
-		private void Update() {
-			if (videoPlayer && isVideoPlaying && !videoPlayer.isPlaying) StopVideo();
-
-#if UNITY_EDITOR
-			if (videoPlayer && videoPlayer.isPlaying && Input.anyKeyDown) StopVideo();
-#endif
+		public void PlayVideo(VideoClip clip) {
+			if (!videoPlayer || isVideoPlaying || !clip) return;
+			videoPlayer.clip = clip;
+			StartCoroutine(PlayVideoCR());
 		}
 
-		void PlayVideo(string videoName) {
-			if (!videoPlayer || isVideoPlaying) return;
-			videoPlayer.url = "file://" + Application.streamingAssetsPath + "/" + videoName;
+		IEnumerator PlayVideoCR() {
 			videoPlayer.Play();
 			isVideoPlaying = true;
+			float keyDownTime = 0;
+			while (videoPlayer.isPlaying && videoPlayer.time <= videoPlayer.clip.length) {
+				if (Input.anyKey) {	// Skip the video if any key is held down for more than 1 second
+					keyDownTime += Time.deltaTime;
+					if (keyDownTime > 1f) break;
+				}
+				else keyDownTime = 0;
+				yield return null;
+			}
+			if (isVideoPlaying) StopVideo();
 		}
 
 		void StopVideo() {
@@ -56,18 +63,17 @@ namespace GGJ.Management {
 			if (OnVideoEnd != null) OnVideoEnd();
 		}
 
-        IEnumerator NextStage(float delay) {
+		IEnumerator NextStage(float delay) {
 			yield return new WaitForSeconds(stageEndDelay);
 			if (curStageIndex >= 0) {
 				if (videoPlayer && stages[curStageIndex].stageEndVideo) {
-					videoPlayer.clip = stages[curStageIndex].stageEndVideo;
-					videoPlayer.Play();
+					PlayVideo(stages[curStageIndex].stageEndVideo);
+					yield return null;
 				}
 				foreach (GameObject actGO in stages[curStageIndex].activateOnEnd) actGO.SetActive(true);
 				foreach (GameObject actGO in stages[curStageIndex].deactivateOnEnd) actGO.SetActive(false);
 			}
 			curStageIndex++;
-			Debug.Log("Next stage");
 			if (curStageIndex >= stages.Count) {
 				Debug.Log("CONGLATURATION!!! YOUR WINNER! And you were eaten by a grue.");
 			}
@@ -75,10 +81,9 @@ namespace GGJ.Management {
 				GameStage curStage = stages[curStageIndex];
 				toBeUnlocked.Clear();
 				foreach (JournalEntry entry in curStage.entriesToUnlock) toBeUnlocked[entry] = false;
+				allEntriesUnlocked = false;
 			}
 		}
-
-		bool allEntriesUnlocked = false;
 
 		void OnEntryUnlocked(JournalEntry entry) {
 			if (entry == stages[curStageIndex].stageEndingEntry) {
