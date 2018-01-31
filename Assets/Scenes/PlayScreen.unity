@@ -4580,7 +4580,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4999237006435580, guid: 4473f28069e71ab47be2a4ed65c9e602, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.53
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4999237006435580, guid: 4473f28069e71ab47be2a4ed65c9e602, type: 2}
       propertyPath: m_LocalPosition.x
@@ -16174,13 +16174,9 @@ Prefab:
     - target: {fileID: 114087337331755006, guid: 4473f28069e71ab47be2a4ed65c9e602,
         type: 2}
       propertyPath: thoughtText
-      value: 'I''ll just add 1 tablet.
+      value: 'I''ll just add 1 tablet. He''ll never notice.
 
-        He''ll never notice.
-
-        And he''ll never wake up.
-
-        Butterfly.'
+        And he''ll never wake up. Butterfly.'
       objectReference: {fileID: 0}
     - target: {fileID: 114087337331755006, guid: 4473f28069e71ab47be2a4ed65c9e602,
         type: 2}
