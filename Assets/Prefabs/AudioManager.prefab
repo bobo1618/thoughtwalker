@@ -57,8 +57,8 @@ MonoBehaviour:
   sfxGroup: {fileID: 243641249945578446, guid: 8878da101aa662b46839e31f0a926d8d, type: 2}
   videoGroup: {fileID: 243189603995709920, guid: 8878da101aa662b46839e31f0a926d8d,
     type: 2}
-  pitchChangeAmount: 0
-  distortAmount: 0
+  pitchChangeAmount: 4
+  distortAmount: 1
   distortCurve:
     serializedVersion: 2
     m_Curve:

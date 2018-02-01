@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GGJ.Journal;
+using GGJ.JournalStuff;
 using DG.Tweening;
 
 namespace GGJ.Thoughts {
@@ -79,7 +79,7 @@ namespace GGJ.Thoughts {
             thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(thoughtData).OnComplete(() => {
                 if(thoughtUnlocks.Count > 0) {
                     foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
-                        Journal.Journal.Instance.AddEntry(selectedEntry);
+                        Journal.Instance.AddEntry(selectedEntry);
                     }
                     thoughtUnlocks.Clear();
                 }

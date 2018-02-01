@@ -19,7 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlphaTex:
-        m_Texture: {fileID: 2800000, guid: 53d3bda627d058d4d993586efa788cf4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9440e7320cf5d874b89df55b78326213, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -65,7 +65,7 @@ Material:
     - _DstBlend: 0
     - _Fade: -0.16
     - _FadeRange: 5.4
-    - _FadeValue: 0.53701437
+    - _FadeValue: 0.6027862
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -73,14 +73,14 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Sharpness: 2
+    - _Sharpness: 3.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.12549019, g: 0.06249903, b: 0.06249903, a: 1}
+    - _Color: {r: 0.1254902, g: 0.06249904, b: 0.06249904, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MoveSpeed: {r: 0, g: 0, b: 0, a: 0}
-    - _TexOffset: {r: 0.6761817, g: 0.79684186, b: 0, a: 0}
+    - _TexOffset: {r: 0.25478238, g: 0.60740274, b: 0, a: 0}

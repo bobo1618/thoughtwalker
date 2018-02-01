@@ -187,7 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BG: {fileID: 4017850759058332}
   scrambleColor: aaaaaaaa
-  thoughtMargin: {x: 2, y: 1}
+  thoughtMargin: {x: 2, y: 1.5}
 --- !u!114 &114743442987165762
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -235,8 +235,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 6
-  m_fontSizeBase: 6
+  m_fontSize: 5
+  m_fontSizeBase: 5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 4

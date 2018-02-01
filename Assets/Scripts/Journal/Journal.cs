@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GGJ.Journal {
+namespace GGJ.JournalStuff {
 
 	[System.Serializable]
 	public class JournalEntryUnlock {
@@ -22,12 +22,23 @@ namespace GGJ.Journal {
 		public delegate void EntryUnlockedEvent(JournalEntry entry);
 		public EntryUnlockedEvent OnEntryUnlocked;
 
-		public bool IsVisible { get { return isVisible; } }
+		public delegate void JournalVisibleEvent(bool isVisible);
+		public JournalVisibleEvent OnVisible;
+
+		public bool IsVisible {
+			get { return _isVisible; }
+			set {
+				if (_isVisible == value) return;
+				_isVisible = value;
+				if (OnVisible != null) OnVisible(_isVisible);
+			}
+		}
+		bool _isVisible = false;
 
 		List<JournalPage> pages;
 		Animator animator;
 		int curPageIndex = int.MinValue;
-		bool isVisible = false, isLocked = false;
+		bool isLocked = false;
 		List<System.Action> onNextVisible = new List<System.Action>();
 
 		void Awake() {
@@ -45,11 +56,11 @@ namespace GGJ.Journal {
 		}
 
 		public void ToggleVisibility() {
-			SetVisibility(!isVisible);
+			SetVisibility(!IsVisible);
 		}
 
 		public void SetVisibility(bool isOn) {
-			isVisible = isOn;
+			IsVisible = isOn;
 			animator.SetBool("Visible", isOn);
 			SetNotifState(false);
 			if (onNextVisible.Count > 0) StartCoroutine(PostVisibilityCR());
@@ -73,7 +84,7 @@ namespace GGJ.Journal {
 					page.SetEntryStage(unlock);
 					if (OnEntryUnlocked != null) OnEntryUnlocked(unlock.entry);
 				};
-				if (!isVisible) {
+				if (!IsVisible) {
 					onNextVisible.Add(whenVisible);
 					SetNotifState(true);
 				}
@@ -103,18 +114,8 @@ namespace GGJ.Journal {
 			//}
 		}
 
-		public void Lock(bool turnOn) {
+		public void SetLock(bool turnOn) {
 			isLocked = turnOn;
 		}
-	}
-
-	[CreateAssetMenu(menuName = "Scriptable Objects/Journal entry")]
-	public class JournalEntry : ScriptableObject {
-		[System.Serializable]
-		public class EntryStage {
-			public Sprite image;
-			public float fadeTime = 1, shakeStrength = 0;
-		}
-		public List<EntryStage> stages;
 	}
 }

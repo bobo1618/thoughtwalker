@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-namespace GGJ.Journal {
+namespace GGJ.JournalStuff {
 	public class JournalPage : MonoBehaviour {
 		[SerializeField] JournalEntryMapper[] entryMap;
 

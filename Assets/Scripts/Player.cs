@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GGJ.Management;
-using GGJ.Journal;
+using GGJ.JournalStuff;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour {

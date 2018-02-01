@@ -48,11 +48,11 @@ namespace GGJ.Audio {
 		}
 
 		void DoPitchChange() {
-			pitchTweener = mixer.DOSetFloat("Pitch", Random.Range(1 - (pitchChangeAmount * effectMultiplier / 100f), 1 + (pitchChangeAmount / 100f)), Random.Range(1f, 2f)).SetEase(Ease.InOutSine).OnComplete(() => DoPitchChange());
+			pitchTweener = mixer.DOSetFloat("Pitch", Random.Range(1 - (pitchChangeAmount * effectMultiplier / 100f), 1 + (pitchChangeAmount * effectMultiplier / 100f)), Random.Range(1f, 2f)).SetEase(Ease.InOutSine).OnComplete(() => DoPitchChange());
 		}
 
 		void DoDistort() {
-			distortTweener = mixer.DOSetFloat("Distort", distortCurve.Evaluate(Random.Range(0, distortAmount)), Random.Range(0.5f, 1f)).SetEase(Ease.Linear).OnComplete(() => DoDistort());
+			distortTweener = mixer.DOSetFloat("Distort", distortCurve.Evaluate(Random.Range(0, distortAmount * effectMultiplier)), Random.Range(0.5f, 1f)).SetEase(Ease.Linear).OnComplete(() => DoDistort());
 		}
 
 		public static void PlaySound(AudioClip sound, float volumeScale = 1) {

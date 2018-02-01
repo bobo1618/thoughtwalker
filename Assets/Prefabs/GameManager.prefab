@@ -81,6 +81,7 @@ MonoBehaviour:
     deactivateOnEnd:
     - {fileID: 0}
     stageEndVideo: {fileID: 32900000, guid: 38dee696b666c704788b94dce1f5f6be, type: 3}
+    stageEndDelay: 5
   - state: 1
     entriesToUnlock:
     - {fileID: 11400000, guid: fb9de8b009f609e418b8a37d64d10486, type: 2}
@@ -94,25 +95,26 @@ MonoBehaviour:
       delay: 1
     - entry: {fileID: 11400000, guid: 1876678c0beffca4ca4edb0adf20113d, type: 2}
       stage: 1
-      delay: 1.5
+      delay: 1.75
     - entry: {fileID: 11400000, guid: 2188b55f16dd3cf458ca29c3736e3cfa, type: 2}
       stage: 1
-      delay: 2
+      delay: 2.5
     - entry: {fileID: 11400000, guid: fb9de8b009f609e418b8a37d64d10486, type: 2}
       stage: 1
-      delay: 2.5
+      delay: 3.25
     - entry: {fileID: 11400000, guid: b94f9c3cd5b572a49b632d8053c3d768, type: 2}
       stage: 1
-      delay: 3
+      delay: 4
     - entry: {fileID: 11400000, guid: f5b83458eb1565b4bb1cc0462717a946, type: 2}
       stage: 0
-      delay: 4
+      delay: 5
     stageEndingEntry: {fileID: 11400000, guid: f5b83458eb1565b4bb1cc0462717a946, type: 2}
     activateOnEnd:
     - {fileID: 0}
     deactivateOnEnd:
     - {fileID: 0}
     stageEndVideo: {fileID: 0}
+    stageEndDelay: 6
   - state: 2
     entriesToUnlock: []
     unlockAfterAllUnlocked: []
@@ -120,9 +122,10 @@ MonoBehaviour:
     activateOnEnd: []
     deactivateOnEnd: []
     stageEndVideo: {fileID: 0}
-  stageEndDelay: 5
+    stageEndDelay: 5
   videoPlayer: {fileID: 328066202020881902}
   introVideo: {fileID: 32900000, guid: ab542ac93d2cd8f419b265b16c23e201, type: 3}
+  faderAnim: {fileID: 0}
 --- !u!328 &328066202020881902
 VideoPlayer:
   m_ObjectHideFlags: 1

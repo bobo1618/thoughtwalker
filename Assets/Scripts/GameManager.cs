@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GGJ.Thoughts;
-using GGJ.Journal;
+using GGJ.JournalStuff;
 using GGJ.Audio;
 using UnityEngine.Video;
 
 namespace GGJ.Management {
 	public class GameManager : MonoBehaviour {
 		[SerializeField] List<GameStage> stages;
-		[SerializeField] float stageEndDelay = 5f;
 		[SerializeField] VideoPlayer videoPlayer;
         [SerializeField] VideoClip introVideo;
 		[SerializeField] Animator faderAnim;
@@ -36,8 +35,8 @@ namespace GGJ.Management {
 		void Start() {
 			if (videoPlayer && AudioManager.VideoSource) videoPlayer.SetTargetAudioSource(0, AudioManager.VideoSource);
 			if (introVideo) PlayVideo(introVideo);
-			Journal.Journal.Instance.OnEntryUnlocked += OnEntryUnlocked;
-			StartCoroutine(NextStage(0));
+			Journal.Instance.OnEntryUnlocked += OnEntryUnlocked;
+			StartCoroutine(NextStage());
 		}
 
 		public void PlayVideo(VideoClip clip) {
@@ -70,12 +69,12 @@ namespace GGJ.Management {
 			if (OnVideoEnd != null) OnVideoEnd();
 		}
 
-		IEnumerator NextStage(float delay) {
-			yield return new WaitForSeconds(stageEndDelay);
+		IEnumerator NextStage() {
 			if (curStageIndex >= 0) {
+				yield return new WaitForSeconds(stages[curStageIndex].stageEndDelay);
 				if (videoPlayer && stages[curStageIndex].stageEndVideo) {
 					PlayVideo(stages[curStageIndex].stageEndVideo);
-					yield return null;
+					while (isVideoPlaying) yield return null;
 				}
 				foreach (GameObject actGO in stages[curStageIndex].activateOnEnd) actGO.SetActive(true);
 				foreach (GameObject actGO in stages[curStageIndex].deactivateOnEnd) actGO.SetActive(false);
@@ -89,12 +88,14 @@ namespace GGJ.Management {
 				toBeUnlocked.Clear();
 				foreach (JournalEntry entry in curStage.entriesToUnlock) toBeUnlocked[entry] = false;
 				allEntriesUnlocked = false;
+				Journal.Instance.SetLock(false);
+				//Journal.Instance.SetVisibility(false);
 			}
 		}
 
 		void OnEntryUnlocked(JournalEntry entry) {
 			if (entry == stages[curStageIndex].stageEndingEntry) {
-				StartCoroutine(NextStage(stageEndDelay));
+				StartCoroutine(NextStage());
 				return;
 			}
 
@@ -104,8 +105,9 @@ namespace GGJ.Management {
 			toBeUnlocked[entry] = true;
 			allEntriesUnlocked = true;
 			foreach (bool isUnlocked in toBeUnlocked.Values) allEntriesUnlocked &= isUnlocked;
-			if (allEntriesUnlocked) {
-				foreach (JournalEntryUnlock unlock in stages[curStageIndex].unlockAfterAllUnlocked) Journal.Journal.Instance.AddEntry(unlock);
+			if (allEntriesUnlocked) {   // Stage end officially begins here
+				Journal.Instance.SetLock(true);
+				foreach (JournalEntryUnlock unlock in stages[curStageIndex].unlockAfterAllUnlocked) Journal.Instance.AddEntry(unlock);
 			}
 		}
 	}
@@ -118,5 +120,6 @@ namespace GGJ.Management {
 		public JournalEntry stageEndingEntry;
 		public List<GameObject> activateOnEnd, deactivateOnEnd;
 		public VideoClip stageEndVideo;
+		public float stageEndDelay = 5f;
 	}
 }
