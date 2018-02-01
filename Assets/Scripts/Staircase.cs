@@ -4,53 +4,38 @@ using UnityEngine;
 using DG.Tweening;
 
 public class Staircase : MonoBehaviour {
-    public Transform linkedStaircase;
-    private GameObject toTransport;
-    private bool moving = false;
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public Transform uplink, downlink;
+
+	static bool moving = false;	// Static so only one staircase is active at a time
+
+	Player toTransport;
 	
 	// Update is called once per frame
 	void Update () {
-        if(toTransport != null) {
-            if(Input.GetKey("w")) {
-                TransportObject();
-            }
-        }
+		float moveDir = Input.GetAxisRaw("Vertical");
+        if (moveDir != 0 && toTransport != null) TransportObject(moveDir > 0);
     }
 
-    public void OnTriggerStay2D(Collider2D collision) {
-        if(collision.gameObject.tag == "Player") {
-            toTransport = collision.gameObject;
-        }
+    public void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.tag == "Player") toTransport = collision.GetComponent<Player>();
     }
 
-    public void OnTriggerExit2D(Collider2D collision) {
-        if(collision.gameObject.tag == "Player" && !moving) {
-            toTransport = null;
-        }
-    }
+	public void OnTriggerExit2D(Collider2D collision) {
+		if (collision.gameObject.tag == "Player" && !moving) toTransport = null;
+	}
 
-    public void TransportObject() {
+    public void TransportObject(bool moveUp) {
+		if (moving || !toTransport) return;
+		Transform moveTo = moveUp ? uplink : downlink;
+		if (!moveTo) return;
         moving = true;
-        //toTransport.GetComponent<SpriteRenderer>().enabled = false;
-        toTransport.GetComponent<Animator>().SetBool("Fade", true);
-        BeginTransport();
-    }
-
-    void BeginTransport() {
-        toTransport.GetComponent<Collider2D>().enabled = false;
-        toTransport.GetComponent<Rigidbody2D>().simulated = false;
-        toTransport.transform.DOMove(linkedStaircase.transform.position, 1f).SetDelay(0.5f).OnComplete(() => HandleDoneTransport());
+		toTransport.Fade(true);
+        toTransport.transform.DOMove(moveTo.position, 1f).SetDelay(0.5f).OnComplete(() => HandleDoneTransport());
     }
 
     void HandleDoneTransport() {
         moving = false;
-        toTransport.GetComponent<Animator>().SetBool("Fade", false);
-        toTransport.GetComponent<Collider2D>().enabled = true;
-        toTransport.GetComponent<Rigidbody2D>().simulated = true;
-        toTransport = null;
+		toTransport.Fade(false);
+		toTransport = null;
     }
 }

@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1622433693837862}
   m_IsPrefabParent: 1
+--- !u!1 &1243335540662286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4760384024412628}
+  m_Layer: 0
+  m_Name: ThoughtAppear
+  m_TagString: Untagged
+  m_Icon: {fileID: 1654036009018553494, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1622433693837862
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,8 +54,22 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 21.94, y: -3.338624, z: -1}
   m_LocalScale: {x: 1.5250007, y: 0.9374997, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4760384024412628}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4760384024412628
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1243335540662286}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4601369018969870}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &61851437638649164
@@ -80,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thoughtUnlocks: []
-  thoughtPosition: {fileID: 0}
+  thoughtPosition: {fileID: 4760384024412628}
   thoughtPrefab: {fileID: 1732776378957608, guid: 5793a612a14fc204a9b7e7249de48ed8,
     type: 2}
   thoughtSprite: {fileID: 21300000, guid: 6cda5009e515fc44489dd2da9526ad6e, type: 3}
@@ -90,6 +119,8 @@ MonoBehaviour:
   parentTransform: {fileID: 0}
   thoughtState: 0
   autoFade: 0
+  scramble: 
+  appearSpeed: 30
   oneTimeShow: 0
 --- !u!114 &114743368954762728
 MonoBehaviour:
@@ -102,7 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b055a9a7740eeee4a9720692f977e8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkedStaircase: {fileID: 0}
+  uplink: {fileID: 0}
+  downlink: {fileID: 0}
 --- !u!212 &212645556307870084
 SpriteRenderer:
   m_ObjectHideFlags: 1

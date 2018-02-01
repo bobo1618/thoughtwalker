@@ -27,4 +27,10 @@ public class Player : MonoBehaviour {
 			foreach (SpriteRenderer sprite in spritesToFlip) sprite.flipX = flipX;
 		}
 	}
+
+	public void Fade(bool fadeOut) {
+		if (animator) animator.SetBool("Fade", fadeOut);
+		GetComponent<Collider2D>().enabled = !fadeOut;
+		rigidbody.simulated = !fadeOut;
+	}
 }

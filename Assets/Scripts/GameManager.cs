@@ -12,6 +12,7 @@ namespace GGJ.Management {
 		[SerializeField] float stageEndDelay = 5f;
 		[SerializeField] VideoPlayer videoPlayer;
         [SerializeField] VideoClip introVideo;
+		[SerializeField] Animator faderAnim;
 
 		public static GameManager Instance { get; private set; }
 		public EmotionalState CurState {
@@ -28,6 +29,10 @@ namespace GGJ.Management {
 		int curStageIndex = -1;
 		bool isVideoPlaying = false, allEntriesUnlocked = false;
 
+		void Awake() {
+			Instance = this;
+		}
+
 		void Start() {
 			if (videoPlayer && AudioManager.VideoSource) videoPlayer.SetTargetAudioSource(0, AudioManager.VideoSource);
 			if (introVideo) PlayVideo(introVideo);
@@ -42,8 +47,9 @@ namespace GGJ.Management {
 		}
 
 		IEnumerator PlayVideoCR() {
-			videoPlayer.Play();
 			isVideoPlaying = true;
+			if (faderAnim) faderAnim.SetBool("Fade", true);
+			videoPlayer.Play();
 			float keyDownTime = 0;
 			while (videoPlayer.isPlaying && videoPlayer.time <= videoPlayer.clip.length) {
 				if (Input.anyKey) {	// Skip the video if any key is held down for more than 1 second
@@ -60,6 +66,7 @@ namespace GGJ.Management {
 			if (!videoPlayer) return;
 			videoPlayer.Stop();
 			isVideoPlaying = false;
+			if (faderAnim) faderAnim.SetBool("Fade", false);
 			if (OnVideoEnd != null) OnVideoEnd();
 		}
 

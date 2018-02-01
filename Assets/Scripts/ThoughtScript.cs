@@ -35,6 +35,7 @@ namespace GGJ.Thoughts {
 			TextMeshPro textMesh = GetComponentInChildren<TextMeshPro>();
 			float bgScaleFactor = 0;
 			DOTween.To(() => bgScaleFactor, scale => bgScaleFactor = scale, 1f, Mathf.Min(0.67f, appearDuration)).SetEase(Ease.OutSine);
+			if (BG) BG.localScale = Vector3.zero;
 
 			//if (scramble == string.Empty) {
    //             textMesh.text = thoughtText;
