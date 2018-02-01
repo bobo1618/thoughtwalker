@@ -20,6 +20,7 @@ namespace GGJ.Thoughts {
         public string message;
         public bool autoFade;
         public float speed;
+		public ParticleSystem endAppearPFX;
     }
 
     public class ThoughtGenerator : MonoBehaviour {
@@ -36,7 +37,9 @@ namespace GGJ.Thoughts {
         public bool autoFade;
         [Multiline]
         public string scramble;
-        public float appearSpeed;
+		public float appearSpeed;
+		public float lockPlayerTime = 0;
+		public ParticleSystem endAppearPFX;
 
         public bool oneTimeShow = false;
 
@@ -74,8 +77,9 @@ namespace GGJ.Thoughts {
             thoughtData.fadeDelay = fadeDelay;
             thoughtData.scramble = scramble;
             thoughtData.speed = appearSpeed;
+			thoughtData.endAppearPFX = endAppearPFX;
 
-            shownOnce = true;
+			shownOnce = true;
             thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(thoughtData).OnComplete(() => {
                 if(thoughtUnlocks.Count > 0) {
                     foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
@@ -88,7 +92,10 @@ namespace GGJ.Thoughts {
                     Invoke("FadeThought", fadeDelay);
                 }
             });
-        }
+
+			Player.Instance.LockMovement(lockPlayerTime);
+			lockPlayerTime = 0;
+		}
 
         public void FadeThought() {
             if(onFading != null) {

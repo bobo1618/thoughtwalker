@@ -19,7 +19,6 @@ namespace GGJ.Thoughts {
 
         public void Awake() {
             sequence = DOTween.Sequence();
-            if (BG) BG.localScale = Vector3.zero;
         }
 
         // Use this for initialization
@@ -35,7 +34,6 @@ namespace GGJ.Thoughts {
 			TextMeshPro textMesh = GetComponentInChildren<TextMeshPro>();
 			float bgScaleFactor = 0;
 			DOTween.To(() => bgScaleFactor, scale => bgScaleFactor = scale, 1f, Mathf.Min(0.67f, appearDuration)).SetEase(Ease.OutSine);
-			if (BG) BG.localScale = Vector3.zero;
 
 			//if (scramble == string.Empty) {
    //             textMesh.text = thoughtText;
@@ -52,19 +50,25 @@ namespace GGJ.Thoughts {
 					newlineIndex = temp.IndexOf('\n', newlineIndex + 1);
 				}
 			}
-            sequence.Append(DOTween.To(() => strIndex, strLen => {
-                if(scrambleText != string.Empty) {
+			sequence.Append(DOTween.To(() => strIndex, strLen => {
+				if (scrambleText != string.Empty) {
 					string newText = string.Format("{0}<color=#{1}>{2}</color>",
 						thoughtText.Substring(0, strLen),
 						scrambleColor,
 						scrambleText.Substring(strLen, thoughtText.Length - strLen));
-                    textMesh.text = newText;
-                } else {
-                    textMesh.text = thoughtText.Substring(0, strLen);
-                }
-				// Match BG size to text bounds
-				BG.localScale = (textMesh.bounds.size + (Vector3)thoughtMargin) * bgScaleFactor;
-			}, thoughtText.Length, appearDuration).SetEase(Ease.Linear));
+					textMesh.text = newText;
+				}
+				else {
+					textMesh.text = thoughtText.Substring(0, strLen);
+				}
+				if (BG) BG.localScale = (textMesh.bounds.size + (Vector3)thoughtMargin) * bgScaleFactor;
+			}, thoughtText.Length, appearDuration).SetEase(Ease.Linear).OnComplete(() => {
+				if (thoughtData.endAppearPFX) {
+					thoughtData.endAppearPFX.transform.position = transform.position;
+					if (BG) thoughtData.endAppearPFX.transform.localScale = BG.lossyScale;
+					thoughtData.endAppearPFX.Play();
+				}
+			}));
             //}
             return sequence;
         }
