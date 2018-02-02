@@ -33,6 +33,7 @@ namespace GGJ.Management {
 		}
 
 		void Start() {
+			Cursor.visible = false;
 			if (videoPlayer && AudioManager.VideoSource) videoPlayer.SetTargetAudioSource(0, AudioManager.VideoSource);
 			if (introVideo) PlayVideo(introVideo);
 			Journal.Instance.OnEntryUnlocked += OnEntryUnlocked;

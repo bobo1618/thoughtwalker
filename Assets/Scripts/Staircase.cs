@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using GGJ.Management;
+using GGJ.JournalStuff;
 
 public class Staircase : MonoBehaviour {
     public Transform uplink, downlink;
@@ -12,6 +14,7 @@ public class Staircase : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (GameManager.Instance.IsVideoPlaying || Journal.Instance.IsVisible) return;
 		float moveDir = Input.GetAxisRaw("Vertical");
         if (moveDir != 0 && toTransport != null) TransportObject(moveDir > 0);
     }

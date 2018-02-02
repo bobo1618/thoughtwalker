@@ -77,7 +77,7 @@ namespace GGJ.JournalStuff {
 			for (int p = 0; p < pages.Count; p++) {
 				int curStage = -1;
 				JournalPage page = pages[p];
-				if (!page.HasEntry(unlock.entry, ref curStage) || curStage == unlock.stage) continue;
+				if (!page.HasEntry(unlock.entry, ref curStage)) continue;
 				SetPage(p);
 
 				System.Action whenVisible = () => {
