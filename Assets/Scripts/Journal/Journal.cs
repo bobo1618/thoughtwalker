@@ -38,7 +38,7 @@ namespace GGJ.JournalStuff {
 		List<JournalPage> pages;
 		Animator animator;
 		int curPageIndex = int.MinValue;
-		bool isLocked = false;
+		bool isLocked = false, isAnimating = false;
 		List<System.Action> onNextVisible = new List<System.Action>();
 
 		void Awake() {
@@ -60,15 +60,17 @@ namespace GGJ.JournalStuff {
 		}
 
 		public void SetVisibility(bool isOn) {
+			if (isAnimating) return;
 			IsVisible = isOn;
 			animator.SetBool("Visible", isOn);
 			SetNotifState(false);
-			if (onNextVisible.Count > 0) StartCoroutine(PostVisibilityCR());
+			StartCoroutine(PostVisibilityCR());
 		}
 
 		IEnumerator PostVisibilityCR() {
-			yield return null;
-			yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * (1f - animator.GetCurrentAnimatorStateInfo(0).normalizedTime));
+			isAnimating = true;
+			yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+			isAnimating = false;
 			foreach (var action in onNextVisible) action.Invoke();
 			onNextVisible.Clear();
 		}

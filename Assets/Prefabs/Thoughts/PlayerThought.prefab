@@ -187,7 +187,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BG: {fileID: 4764537162410080}
   scrambleColor: aaaaaaaa
-  thoughtMargin: {x: 1.2, y: 0.8}
+  thoughtMargin: {x: 0.8, y: 0.5}
+  destroyOnFade: 0
 --- !u!114 &114743442987165762
 MonoBehaviour:
   m_ObjectHideFlags: 1

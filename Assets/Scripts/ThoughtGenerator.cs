@@ -20,7 +20,6 @@ namespace GGJ.Thoughts {
         public string message;
         public bool autoFade;
         public float speed;
-		public ParticleSystem endAppearPFX;
     }
 
     public class ThoughtGenerator : MonoBehaviour {
@@ -39,14 +38,13 @@ namespace GGJ.Thoughts {
         public string scramble;
 		public float appearSpeed;
 		public float lockPlayerTime = 0;
-		public ParticleSystem endAppearPFX;
 
         public bool oneTimeShow = false;
+		bool shownOnce = false;
 
         System.Action onFading;
 
         private GameObject thoughtGenerated;
-        private bool shownOnce;
 
         public void SetCallback(System.Action callback = null) {
             if(callback != null) {
@@ -54,44 +52,38 @@ namespace GGJ.Thoughts {
             }
         }
 
-        public void GenerateThought() {
-            if(thoughtGenerated != null) {
-                return;
-            }
+		public void GenerateThought() {
+			if (oneTimeShow && shownOnce) return;
 
-            if(oneTimeShow && shownOnce) {
-                return;
-            }
+			ThoughtData thoughtData = new ThoughtData() {
+				appearDelay = appearDelay,
+				thoughtSprite = thoughtSprite,
+				autoFade = autoFade,
+				message = thoughtText,
+				fadeDelay = fadeDelay,
+				scramble = scramble,
+				speed = appearSpeed
+			};
 
-            if(parentTransform == null) {
-                thoughtGenerated = Instantiate(thoughtPrefab, thoughtPosition);
-            } else {
-                thoughtGenerated = Instantiate(thoughtPrefab, parentTransform);
-            }
+			if (!thoughtGenerated) thoughtGenerated = Instantiate(thoughtPrefab, parentTransform ? parentTransform : thoughtPosition);
 
-            ThoughtData thoughtData = new ThoughtData();
-            thoughtData.appearDelay = appearDelay;
-            thoughtData.thoughtSprite = thoughtSprite;
-            thoughtData.autoFade = autoFade;
-            thoughtData.message = thoughtText;
-            thoughtData.fadeDelay = fadeDelay;
-            thoughtData.scramble = scramble;
-            thoughtData.speed = appearSpeed;
-			thoughtData.endAppearPFX = endAppearPFX;
-
-			shownOnce = true;
-            thoughtGenerated.GetComponent<ThoughtScript>().PlayThought(thoughtData).OnComplete(() => {
-                if(thoughtUnlocks.Count > 0) {
-                    foreach(JournalEntryUnlock selectedEntry in thoughtUnlocks) {
-                        Journal.Instance.AddEntry(selectedEntry);
-                    }
-                    thoughtUnlocks.Clear();
-                }
-
-                if(autoFade) {
-                    Invoke("FadeThought", fadeDelay);
-                }
-            });
+			ThoughtScript thought = thoughtGenerated.GetComponent<ThoughtScript>();
+			if (thought) {
+				thought.PlayThought(thoughtData).OnComplete(() => {
+					shownOnce = true;
+					if (oneTimeShow) thought.destroyOnFade = true;
+					if (thoughtUnlocks.Count > 0) {
+						foreach (JournalEntryUnlock selectedEntry in thoughtUnlocks) {
+							Journal.Instance.AddEntry(selectedEntry);
+						}
+						thoughtUnlocks.Clear();
+					}
+					if (autoFade) Invoke("FadeThought", fadeDelay);
+				});
+			}
+			else {
+				shownOnce = true;
+			}
 
 			Player.Instance.LockMovement(lockPlayerTime);
 			lockPlayerTime = 0;
@@ -101,7 +93,6 @@ namespace GGJ.Thoughts {
             if(onFading != null) {
                 onFading.Invoke();
             }
-
             if(thoughtGenerated != null && thoughtGenerated.GetComponent<SpriteRenderer>() != null) {
                 thoughtGenerated.GetComponent<ThoughtScript>().FadeThought();
             }
@@ -116,7 +107,7 @@ namespace GGJ.Thoughts {
         private void OnTriggerExit2D(Collider2D other) {
             if(other.gameObject.tag == "Player") {
                 CancelInvoke("GenerateThought");
-                if(shownOnce == true) {
+                if (thoughtGenerated && thoughtGenerated.activeSelf) {
                     Invoke("FadeThought", fadeDelay);
                 }
             }

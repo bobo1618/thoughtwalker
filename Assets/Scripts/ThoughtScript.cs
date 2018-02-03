@@ -10,6 +10,8 @@ namespace GGJ.Thoughts {
 		public string scrambleColor = "ffffff88";
 		public Vector2 thoughtMargin;
 
+		[HideInInspector] public bool destroyOnFade = false;
+
         Sequence sequence;
         bool autoFade;
         string thoughtText;
@@ -19,11 +21,14 @@ namespace GGJ.Thoughts {
 
         public void Awake() {
             sequence = DOTween.Sequence();
-        }
+			if (BG) BG.localScale = Vector3.zero;
+		}
 
         // Use this for initialization
         public Sequence PlayThought(ThoughtData thoughtData) {
-            thoughtText = thoughtData.message;
+			gameObject.SetActive(true);
+
+			thoughtText = thoughtData.message;
             GetComponentInChildren<TextMeshPro>().text = "";
             disappearDelay = thoughtData.fadeDelay;
             autoFade = thoughtData.autoFade;
@@ -33,16 +38,15 @@ namespace GGJ.Thoughts {
 
 			TextMeshPro textMesh = GetComponentInChildren<TextMeshPro>();
 			float bgScaleFactor = 0;
-			DOTween.To(() => bgScaleFactor, scale => bgScaleFactor = scale, 1f, Mathf.Min(0.67f, appearDuration)).SetEase(Ease.OutSine);
-
-			//if (scramble == string.Empty) {
-   //             textMesh.text = thoughtText;
-   //             sequence.Append(textMesh.DOFade(1.0f, 1.0f).SetEase(Ease.OutQuad));
-   //         } else {
-            int strIndex = 0;
-            textMesh.DOFade(1.0f, 1.5f);
+			if (BG) {
+				BG.localScale = Vector3.zero;
+				DOTween.To(() => bgScaleFactor, scale => bgScaleFactor = scale, 1f, Mathf.Min(0.67f, appearDuration)).SetEase(Ease.OutSine);
+			}
+			
+			textMesh.DOFade(1.0f, 1.5f);
 			string scrambleText = !string.IsNullOrEmpty(scramble) ? scramble.Substring(0, thoughtText.Length) : string.Empty;
 			string temp = thoughtText;
+
 			if (!string.IsNullOrEmpty(scrambleText)) {
 				int newlineIndex = temp.IndexOf('\n');
 				while (newlineIndex >= 0) {
@@ -50,38 +54,31 @@ namespace GGJ.Thoughts {
 					newlineIndex = temp.IndexOf('\n', newlineIndex + 1);
 				}
 			}
-			sequence.Append(DOTween.To(() => strIndex, strLen => {
-				if (scrambleText != string.Empty) {
-					string newText = string.Format("{0}<color=#{1}>{2}</color>",
-						thoughtText.Substring(0, strLen),
+
+			sequence.Append(DOTween.To(() => 0, strLen => {
+				string newText = thoughtText.Substring(0, strLen);
+				if (!string.IsNullOrEmpty(scrambleText)) {
+					newText += string.Format("<color=#{0}>{1}</color>",
 						scrambleColor,
 						scrambleText.Substring(strLen, thoughtText.Length - strLen));
-					textMesh.text = newText;
 				}
-				else {
-					textMesh.text = thoughtText.Substring(0, strLen);
-				}
-				if (BG) BG.localScale = (textMesh.bounds.size + (Vector3)thoughtMargin) * bgScaleFactor;
-			}, thoughtText.Length, appearDuration).SetEase(Ease.Linear).OnComplete(() => {
-				if (thoughtData.endAppearPFX) {
-					thoughtData.endAppearPFX.transform.position = transform.position;
-					if (BG) thoughtData.endAppearPFX.transform.localScale = BG.lossyScale;
-					thoughtData.endAppearPFX.Play();
-				}
-			}));
-            //}
-            return sequence;
-        }
+				textMesh.text = newText;
+				if (BG && strLen > 1) BG.localScale = (textMesh.bounds.size + (Vector3)thoughtMargin) * bgScaleFactor;
+			},
+			thoughtText.Length, appearDuration).SetEase(Ease.Linear));
 
-        public void FadeThought() {
-            transform.parent = null;
+			return sequence;
+		}
 
-            GetComponentInChildren<TextMeshPro>().DOFade(0.0f, 0.5f);
-            Tweener tweenFade = BG.DOScale(0, 0.5f).OnComplete(() => KillThought()).SetAutoKill();
-        }
+		public void FadeThought() {
+			//transform.parent = null;
+			GetComponentInChildren<TextMeshPro>().DOFade(0.0f, 0.5f);
+			Tweener tweenFade = BG.DOScale(0, 0.5f).OnComplete(() => KillThought()).SetAutoKill();
+		}
 
-        void KillThought() {
-            GameObject.Destroy(gameObject);
-        }
-    }
+		void KillThought() {
+			if (destroyOnFade) GameObject.Destroy(gameObject);
+			else gameObject.SetActive(false);
+		}
+	}
 }
